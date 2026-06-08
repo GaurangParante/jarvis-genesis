@@ -1,136 +1,141 @@
-from app.agents.apollo import ApolloAgent
-from app.agents.archive import ArchiveAgent
-from app.agents.athena import AthenaAgent
-from app.agents.forge import ForgeAgent
-from app.agents.mercury import MercuryAgent
-from app.agents.nova import NovaAgent
-from app.agents.orbit import OrbitAgent
-from app.agents.phantom import PhantomAgent
-from app.agents.sentinel import SentinelAgent
-from app.agents.titan import TitanAgent
-
+import re
 
 class IntentRouter:
+
     def __init__(self):
-        self.agent_map = {
-            "coding": ForgeAgent(),
-            "automation": OrbitAgent(),
-            "research": PhantomAgent(),
-            "knowledge": ArchiveAgent(),
-            "documents": ArchiveAgent(),
-            "finance": TitanAgent(),
-            "fitness": AthenaAgent(),
-            "email": MercuryAgent(),
-            "social_media": NovaAgent(),
-            "youtube": ApolloAgent(),
-            "security": SentinelAgent(),
-            "general": ForgeAgent(),
-        }
-        self.intent_keywords = {
-            "coding": (
+
+        self.intent_map = {
+
+            "FORGE": [
                 "code",
                 "coding",
                 "laravel",
-                "vs code",
-                "vscode",
+                "python",
                 "debug",
-                "git",
+                "api",
+                "function",
+                "class",
                 "project",
-                "program",
-                "module",
-                "auth",
-            ),
-            "automation": (
+                "database",
+                "migration",
+            ],
+
+            "ORBIT": [
+                "open",
+                "close",
+                "launch",
+                "folder",
+                "application",
                 "chrome",
                 "browser",
-                "folder",
-                "file",
-                "script",
-                "automation",
-                "launch",
-            ),
-            "research": (
+                "vs code",
+                "vscode",
+            ],
+
+            "PHANTOM": [
                 "research",
                 "latest",
                 "news",
                 "trend",
-                "market",
                 "analysis",
-            ),
-            "knowledge": (
-                "note",
-                "notes",
-                "document",
-                "docs",
-                "knowledge",
-            ),
-            "documents": (
+                "market",
+                "competitor",
+            ],
+
+            "ARCHIVE": [
                 "pdf",
                 "document",
-                "file",
-            ),
-            "finance": (
-                "budget",
-                "spending",
+                "docs",
+                "notes",
+                "knowledge",
+            ],
+
+            "TITAN": [
                 "expense",
                 "income",
+                "budget",
                 "tax",
+                "finance",
+                "money",
                 "gpay",
-            ),
-            "fitness": (
-                "workout",
-                "calorie",
-                "diet",
+            ],
+
+            "ATHENA": [
                 "gym",
-                "sleep",
+                "workout",
                 "fitness",
-            ),
-            "email": (
-                "email",
+                "exercise",
+                "diet",
+                "sleep",
+                "calories",
+            ],
+
+            "MERCURY": [
                 "gmail",
+                "email",
                 "mail",
-                "draft",
                 "reply",
-            ),
-            "social_media": (
+                "draft",
+            ],
+
+            "NOVA": [
                 "linkedin",
                 "instagram",
                 "facebook",
                 "twitter",
-                "x ",
-                "post",
                 "social",
-            ),
-            "youtube": (
+                "post",
+            ],
+
+            "APOLLO": [
                 "youtube",
-                "video",
                 "thumbnail",
+                "video",
+                "channel",
                 "seo",
-                "upload",
-                "script",
-            ),
-            "security": (
+            ],
+
+            "SENTINEL": [
                 "security",
-                "cctv",
                 "password",
                 "alert",
-                "suspicious",
                 "login",
-            ),
+                "cctv",
+            ],
         }
 
-    def detect_intent(self, user_input: str) -> str:
+    def route(self, user_input):
+
+        result = self.detect_agent(user_input)
+
+        return result
+
+    def detect_agents(self, user_input):
+
         text = user_input.lower()
 
-        for intent, keywords in self.intent_keywords.items():
-            if any(keyword in text for keyword in keywords):
-                return intent
+        scores = {}
 
-        return "general"
+        for agent, keywords in self.intent_map.items():
 
-    def select_agent(self, intent: str):
-        return self.agent_map.get(intent, self.agent_map["general"])
+            score = 0
+            matched_keywords = []
 
-    def route(self, user_input: str):
-        intent = self.detect_intent(user_input)
-        return intent, self.select_agent(intent)
+            for keyword in keywords:
+
+                if re.search(
+                    rf"\b{re.escape(keyword)}\b",
+                    text
+                ):
+                    score += 1
+                    matched_keywords.append(keyword)
+
+            if score > 0:
+
+                print(
+                    f"{agent} -> {matched_keywords}"
+                )
+
+                scores[agent] = score
+
+        return scores

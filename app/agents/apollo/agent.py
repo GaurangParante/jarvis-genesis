@@ -1,5 +1,27 @@
 class ApolloAgent:
+
     name = "APOLLO"
 
+    description = """
+    YouTube Management Agent.
+
+    Responsibilities:
+    - Topic Research
+    - Script Writing
+    - SEO Optimization
+    - Thumbnail Planning
+    - Video Publishing
+    - Channel Analytics
+    """
+
+    capabilities = [
+        "youtube",
+        "youtube_seo",
+        "script_writing",
+        "thumbnail_creation",
+        "video_publishing",
+        "channel_management"
+    ]
+
     def handle(self):
-        return "Ready to help with YouTube tasks."
+        return "Ready for YouTube tasks."

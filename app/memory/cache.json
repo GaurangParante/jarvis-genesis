@@ -1,0 +1,22 @@
+{
+    "open vscode": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Open VS Code"
+            }
+        ]
+    },
+    "open youtube and create laravel project": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Open YouTube"
+            },
+            {
+                "name": "FORGE",
+                "task": "Create Laravel project"
+            }
+        ]
+    }
+}
