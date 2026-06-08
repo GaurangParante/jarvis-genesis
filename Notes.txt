@@ -1,0 +1,151 @@
+jarvis-genesis
+The beginning of everything.
+
+
+Folder Structure
+
+Starting se clean architecture rakhte hain.
+
+jarvis-genesis/
+
+├── app/
+│   ├── core/
+│   │   ├── jarvis.py
+│   │   ├── intent_router.py
+│   │   └── config.py
+│   │
+│   ├── agents/
+│   │   ├── forge/
+│   │   ├── orbit/
+│   │   ├── athena/
+│   │   ├── titan/
+│   │   ├── apollo/
+│   │   ├── nova/
+│   │   ├── sentinel/
+│   │   ├── mercury/
+│   │   ├── phantom/
+│   │   └── archive/
+│   │
+│   ├── memory/
+│   ├── tools/
+│   ├── voice/
+│   └── rag/
+│
+├── tests/
+├── docs/
+├── requirements.txt
+└── README.md
+
+
+Phase 1 Goal
+
+Abhi sirf itna:
+
+User Input
+      ↓
+Intent Router
+      ↓
+Agent Selection
+      ↓
+Response
+
+Example:
+
+User:
+Open VS Code
+
+Router:
+coding_intent
+
+Agent:
+FORGE
+
+Response:
+FORGE selected
+Intent Router Design
+
+Sabse pehle categories define karte hain.
+
+coding
+automation
+research
+knowledge
+finance
+fitness
+email
+social_media
+youtube
+security
+documents
+general
+Example Mapping
+Create Laravel project
+→ FORGE
+
+Open VS Code
+→ FORGE
+
+Open Chrome
+→ ORBIT
+
+Search latest AI news
+→ PHANTOM
+
+Check Gmail
+→ MERCURY
+
+Analyze spending
+→ TITAN
+
+Create YouTube script
+→ APOLLO
+
+Create LinkedIn post
+→ NOVA
+
+Analyze PDF
+→ ARCHIVE
+
+Workout plan
+→ ATHENA
+Today's Deliverable
+
+By the end of today, target this:
+
+python main.py
+
+You: create laravel project
+
+[JARVIS]
+Intent: coding
+
+Agent Selected:
+FORGE
+
+FORGE:
+Ready to assist with coding tasks.
+
+No AI model.
+No automation.
+No tools.
+
+Just:
+
+Input
+↓
+Intent Detection
+↓
+Agent Selection
+↓
+Response
+
+Agar ye foundation solid hua to baad me:
+
+Groq
+Voice
+Memory
+RAG
+Automation
+Multi-Agent System
+
+sab aasani se add honge.
