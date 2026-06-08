@@ -1,0 +1,184 @@
+Main AI
+
+Tony Stark style main assistant ka naam:
+
+JARVIS
+
+Ye sabka commander hoga.
+
+User
+ ↓
+JARVIS
+ ↓
+Agent Router
+ ↓
+All Agents
+Agent Names
+
+Maine Marvel / Sci-Fi style names rakhe hain.
+
+ATHENA
+
+Health & Fitness Agent
+
+ATHENA
+
+Kaam:
+
+Gym tracking
+Workout plan
+Diet plan
+Sleep tracking
+Progress analysis
+Calories
+Supplements
+
+Example:
+
+Jarvis, ask Athena
+how many calories I burned today?
+SENTINEL
+
+Security Agent
+
+SENTINEL
+
+Kaam:
+
+CCTV monitoring
+Login alerts
+Device monitoring
+Suspicious activity
+Password audits
+Security reports
+MERCURY
+
+Communication Agent
+
+MERCURY
+
+Kaam:
+
+Gmail
+WhatsApp
+Telegram
+Email drafts
+Reply suggestions
+Meeting summaries
+TITAN
+
+Finance Agent
+
+TITAN
+
+Kaam:
+
+GPay transactions
+Spending reports
+Budget tracking
+Income tracking
+Tax preparation
+Expense categorization
+FORGE
+
+Coding Agent
+
+FORGE
+
+Kaam:
+
+Write code
+Debug code
+Create projects
+VS Code control
+Git commits
+Documentation
+
+Example:
+
+Jarvis ask Forge
+create Laravel auth module
+ORBIT
+
+Desktop Agent
+
+ORBIT
+
+Kaam:
+
+Open applications
+Search files
+Create folders
+Move files
+Run scripts
+PHANTOM
+
+Research Agent
+
+PHANTOM
+
+Kaam:
+
+Deep research
+Competitor analysis
+Web search
+Market trends
+News monitoring
+APOLLO
+
+YouTube Agent
+
+APOLLO
+
+Kaam:
+
+Find topics
+Research videos
+Generate scripts
+Generate thumbnails
+Upload videos
+SEO
+Analytics
+
+Future:
+
+Topic
+ ↓
+Research
+ ↓
+Script
+ ↓
+Voice
+ ↓
+Video
+ ↓
+Thumbnail
+ ↓
+Upload
+NOVA
+
+Social Media Agent
+
+NOVA
+
+Kaam:
+
+LinkedIn
+X
+Instagram
+Facebook
+Scheduling
+Content generation
+ARCHIVE
+
+Knowledge Agent
+
+ARCHIVE
+
+Kaam:
+
+PDFs
+Notes
+Documents
+RAG
+Vector DB
