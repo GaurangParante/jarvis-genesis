@@ -3,27 +3,34 @@ class AthenaAgent:
     name = "ATHENA"
 
     description = """
-    Health and Fitness Agent.
-
-    Responsibilities:
-    - Workout Planning
-    - Diet Planning
-    - Fitness Tracking
-    - Sleep Monitoring
-    - Health Analytics
+    Fitness and Health Agent.
     """
 
     capabilities = [
         "fitness",
-        "workout",
         "diet",
-        "calorie_tracking",
+        "workout",
         "sleep_tracking",
         "health_analysis"
     ]
 
-    def handle(self, task):
+    examples = [
+        "create workout plan",
+        "track calories",
+        "diet plan",
+        "sleep report",
+        "fitness goals",
+        "gym workout",
+        "weight loss plan",
+        "muscle gain plan",
+        "track steps",
+        "health analytics",
+        "fitness progress",
+        "weekly workout",
+        "exercise routine",
+        "nutrition plan",
+        "calorie deficit"
+    ]
 
-        return (
-            f"ATHENA received task -> {task}"
-        )    
+    def handle(self, task):
+        return f"ATHENA received task -> {task}"

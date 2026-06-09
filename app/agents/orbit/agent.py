@@ -6,26 +6,67 @@ class OrbitAgent:
     Desktop Automation Agent.
 
     Responsibilities:
-    - Open Applications
-    - Close Applications
-    - File Management
-    - Folder Management
-    - Desktop Automation
-    - Command Execution
+
+    - Open applications
+    - Open VS Code
+    - Open Chrome
+    - Open folders
+    - Open files
+
+    Camera Operations:
+
+    - Open webcam
+    - Capture image
+    - Take photo
+    - Take picture
+    - Selfie capture
+    - Webcam snapshot
+    - Camera control
+
+    Screen Operations:
+
+    - Screenshot capture
+    - Screen recording
+
+    Desktop Control:
+
+    - Launch programs
+    - Browser automation
     """
 
     capabilities = [
-        "desktop_control",
-        "open_application",
-        "close_application",
+        "browser_control",
+        "application_control",
         "file_management",
         "folder_management",
+        "camera_control",
         "automation",
-        "command_execution"
+        "camera_capture",
+        "photo_capture",
+        "webcam",
+        "take_picture",
+        "screenshot",
+        "screen_recording",
+        "desktop_control"
+    ]
+
+    examples = [
+        "open vscode",
+        "open chrome",
+        "open downloads folder",
+        "open file explorer",
+        "launch spotify",
+        "close chrome",
+        "take screenshot",
+        "capture screen",
+        "record screen",
+        "open camera",
+        "take image of me",
+        "capture webcam",
+        "click photo",
+        "record webcam video",
+        "open notepad"
     ]
 
     def handle(self, task):
-
-        return (
-            f"ORBIT received task -> {task}"
-        )
+        return f"ORBIT received task -> {task}"

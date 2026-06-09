@@ -6,24 +6,42 @@ class SentinelAgent:
     Security Agent.
 
     Responsibilities:
-    - Security Monitoring
-    - Login Detection
-    - Threat Detection
-    - Password Auditing
-    - Alert Generation
+
+    - CCTV monitoring
+    - Security cameras
+    - Surveillance
+    - Motion detection
+    - Intruder detection
+    - Security recording
+    - Camera feed monitoring
+    - Webcam surveillance
     """
 
     capabilities = [
         "security",
+        "cctv",
+        "camera_monitoring",
         "threat_detection",
-        "login_monitoring",
-        "password_audit",
-        "security_alerts",
-        "system_monitoring"
+        "security_alerts"
+    ]
+
+    examples = [
+        "check cctv",
+        "show security feed",
+        "monitor camera",
+        "intruder detection",
+        "security alert",
+        "camera monitoring",
+        "live camera feed",
+        "motion detection",
+        "security logs",
+        "face detection",
+        "security report",
+        "check webcam feed",
+        "camera activity",
+        "surveillance",
+        "security monitoring"
     ]
 
     def handle(self, task):
-
-        return (
-            f"SENTINEL received task -> {task}"
-        )
+        return f"SENTINEL received task -> {task}"

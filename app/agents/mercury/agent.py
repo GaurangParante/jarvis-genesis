@@ -3,27 +3,38 @@ class MercuryAgent:
     name = "MERCURY"
 
     description = """
-    Communication Agent.
+    Email Management Agent.
 
-    Responsibilities:
-    - Gmail Management
-    - Email Drafting
-    - Email Replies
-    - Communication Monitoring
-    - Inbox Organization
+    Reads, drafts,
+    replies and manages
+    email communication.
     """
 
     capabilities = [
-        "gmail",
         "email",
+        "gmail",
         "email_reply",
         "email_drafting",
-        "communication",
         "inbox_management"
     ]
 
-    def handle(self, task):
+    examples = [
+        "read my emails",
+        "check gmail",
+        "reply to email",
+        "draft email",
+        "send email",
+        "search inbox",
+        "gmail summary",
+        "latest emails",
+        "find email",
+        "email management",
+        "reply professionally",
+        "archive email",
+        "important emails",
+        "filter inbox",
+        "mail search"
+    ]
 
-        return (
-            f"MERCURY received task -> {task}"
-        )
+    def handle(self, task):
+        return f"MERCURY received task -> {task}"

@@ -49,3 +49,32 @@ class AgentRegistry:
             })
 
         return agents
+
+    def get_agent_documents(self):
+
+        docs = []
+        examples = []
+
+        for name, agent_class in self.agents.items():
+
+            text = f"""
+Agent: {name}
+
+Description:
+{agent_class.description}
+
+Capabilities:
+{", ".join(agent_class.capabilities)}
+
+Examples:
+{", ".join(agent_class.examples)}
+"""
+
+            docs.append(
+                {
+                    "name": name,
+                    "text": text
+                }
+            )
+
+        return docs

@@ -5,12 +5,11 @@ class TitanAgent:
     description = """
     Finance Agent.
 
-    Responsibilities:
-    - Expense Tracking
-    - Income Tracking
-    - Budget Management
-    - Financial Reports
-    - Tax Preparation
+    Handles expenses,
+    income tracking,
+    budgeting,
+    financial reports
+    and spending analysis.
     """
 
     capabilities = [
@@ -19,11 +18,26 @@ class TitanAgent:
         "income_tracking",
         "budgeting",
         "financial_reports",
-        "tax_management"
+        "spending_analysis"
+    ]
+
+    examples = [
+        "show my expenses",
+        "monthly spending report",
+        "analyze spending",
+        "budget planning",
+        "track expenses",
+        "track income",
+        "show gpay transactions",
+        "financial summary",
+        "expense analysis",
+        "monthly budget",
+        "tax calculation",
+        "money management",
+        "expense dashboard",
+        "cash flow report",
+        "income report"
     ]
 
     def handle(self, task):
-
-        return (
-            f"TITAN received task -> {task}"
-        )
+        return f"TITAN received task -> {task}"

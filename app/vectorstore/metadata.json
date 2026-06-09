@@ -1,0 +1,42 @@
+[
+    {
+        "name": "FORGE",
+        "text": "\nAgent: FORGE\n\nDescription:\n\n    Software Development Agent.\n\n    Responsible for software engineering, coding,\n    debugging, project generation, APIs,\n    databases and development workflows.\n    \n\nCapabilities:\npython, laravel, fastapi, flask, api_development, database_design, sql, debugging, project_creation, software_development, git, automation_scripts\n\nExamples:\ncreate laravel project, create laravel migration, build rest api, fix python bug, debug my code, create mysql table, write flask api, generate model, generate controller, create authentication system, optimize sql query, create ai chatbot, setup fastapi project, create node js api, write python script\n"
+    },
+    {
+        "name": "ORBIT",
+        "text": "\nAgent: ORBIT\n\nDescription:\n\n    Desktop Automation Agent.\n\n    Responsibilities:\n\n    - Open applications\n    - Open VS Code\n    - Open Chrome\n    - Open folders\n    - Open files\n\n    Camera Operations:\n\n    - Open webcam\n    - Capture image\n    - Take photo\n    - Take picture\n    - Selfie capture\n    - Webcam snapshot\n    - Camera control\n\n    Screen Operations:\n\n    - Screenshot capture\n    - Screen recording\n\n    Desktop Control:\n\n    - Launch programs\n    - Browser automation\n    \n\nCapabilities:\nbrowser_control, application_control, file_management, folder_management, camera_control, automation, camera_capture, photo_capture, webcam, take_picture, screenshot, screen_recording, desktop_control\n\nExamples:\nopen vscode, open chrome, open downloads folder, open file explorer, launch spotify, close chrome, take screenshot, capture screen, record screen, open camera, take image of me, capture webcam, click photo, record webcam video, open notepad\n"
+    },
+    {
+        "name": "PHANTOM",
+        "text": "\nAgent: PHANTOM\n\nDescription:\n\n    Research Agent.\n\n    Performs internet research,\n    market analysis,\n    competitor analysis,\n    trend discovery and investigations.\n    \n\nCapabilities:\nresearch, web_search, market_analysis, trend_analysis, competitor_analysis, news_monitoring\n\nExamples:\nresearch raj shamani, latest ai news, market analysis, competitor research, company analysis, product research, find latest trends, industry report, web research, startup analysis, analyze competitors, research elon musk, latest technology news, stock market trends, deep research\n"
+    },
+    {
+        "name": "ARCHIVE",
+        "text": "\nAgent: ARCHIVE\n\nDescription:\n\n    Knowledge Base and Document Agent.\n    \n\nCapabilities:\npdf_analysis, document_search, knowledge_base, rag, vector_search\n\nExamples:\nanalyze pdf, search documents, find notes, document summary, rag search, knowledge base lookup, read pdf, search files, extract information, document analysis, search notes, knowledge retrieval, find document, summarize document, vector database search\n"
+    },
+    {
+        "name": "TITAN",
+        "text": "\nAgent: TITAN\n\nDescription:\n\n    Finance Agent.\n\n    Handles expenses,\n    income tracking,\n    budgeting,\n    financial reports\n    and spending analysis.\n    \n\nCapabilities:\nfinance, expense_tracking, income_tracking, budgeting, financial_reports, spending_analysis\n\nExamples:\nshow my expenses, monthly spending report, analyze spending, budget planning, track expenses, track income, show gpay transactions, financial summary, expense analysis, monthly budget, tax calculation, money management, expense dashboard, cash flow report, income report\n"
+    },
+    {
+        "name": "ATHENA",
+        "text": "\nAgent: ATHENA\n\nDescription:\n\n    Fitness and Health Agent.\n    \n\nCapabilities:\nfitness, diet, workout, sleep_tracking, health_analysis\n\nExamples:\ncreate workout plan, track calories, diet plan, sleep report, fitness goals, gym workout, weight loss plan, muscle gain plan, track steps, health analytics, fitness progress, weekly workout, exercise routine, nutrition plan, calorie deficit\n"
+    },
+    {
+        "name": "MERCURY",
+        "text": "\nAgent: MERCURY\n\nDescription:\n\n    Email Management Agent.\n\n    Reads, drafts,\n    replies and manages\n    email communication.\n    \n\nCapabilities:\nemail, gmail, email_reply, email_drafting, inbox_management\n\nExamples:\nread my emails, check gmail, reply to email, draft email, send email, search inbox, gmail summary, latest emails, find email, email management, reply professionally, archive email, important emails, filter inbox, mail search\n"
+    },
+    {
+        "name": "NOVA",
+        "text": "\nAgent: NOVA\n\nDescription:\n\n    Social Media Agent.\n\n    Handles posting,\n    scheduling,\n    engagement\n    and analytics.\n    \n\nCapabilities:\nsocial_media, linkedin, instagram, facebook, twitter, content_management\n\nExamples:\ncreate linkedin post, schedule instagram post, write twitter thread, facebook post, social media strategy, instagram content, linkedin content, schedule content, social media analytics, engagement report, brand content, social campaign, content calendar, viral post ideas, social growth\n"
+    },
+    {
+        "name": "APOLLO",
+        "text": "\nAgent: APOLLO\n\nDescription:\n\n    YouTube Growth Agent.\n\n    Responsible for research,\n    scripting, SEO,\n    thumbnails, publishing\n    and channel growth.\n    \n\nCapabilities:\nyoutube, seo, video_creation, script_writing, thumbnail_generation, channel_management, analytics\n\nExamples:\ncreate youtube script, generate thumbnail, youtube seo, publish video, upload video, create faceless video, generate youtube title, write video description, find trending topics, youtube content strategy, youtube analytics, channel optimization, create shorts script, youtube keyword research, viral video ideas\n"
+    },
+    {
+        "name": "SENTINEL",
+        "text": "\nAgent: SENTINEL\n\nDescription:\n\n    Security Agent.\n\n    Responsibilities:\n\n    - CCTV monitoring\n    - Security cameras\n    - Surveillance\n    - Motion detection\n    - Intruder detection\n    - Security recording\n    - Camera feed monitoring\n    - Webcam surveillance\n    \n\nCapabilities:\nsecurity, cctv, camera_monitoring, threat_detection, security_alerts\n\nExamples:\ncheck cctv, show security feed, monitor camera, intruder detection, security alert, camera monitoring, live camera feed, motion detection, security logs, face detection, security report, check webcam feed, camera activity, surveillance, security monitoring\n"
+    }
+]

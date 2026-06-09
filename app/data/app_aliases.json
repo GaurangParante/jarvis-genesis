@@ -1,0 +1,15 @@
+{
+    "file manager": "explorer",
+    "file explorer": "explorer",
+    "explorer": "explorer",
+
+    "edge": "msedge",
+    "microsoft edge": "msedge",
+
+    "visual studio code": "code",
+    "vs code": "code",
+
+    "youtube": "https://youtube.com",
+    "gmail": "https://mail.google.com",
+    "github": "https://github.com"
+}

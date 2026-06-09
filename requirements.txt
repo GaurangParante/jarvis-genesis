@@ -1,2 +1,6 @@
 python-dotenv
 groq 
+sentence-transformers
+faiss-cpu
+numpy
+opencv-python

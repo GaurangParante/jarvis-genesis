@@ -1,0 +1,133 @@
+JARVIS Genesis ready.
+Type 'exit' to quit.
+You: set an alarm fro every 20 min till next 2 hours
+
+[STEP 1] Intent Router
+[ROUTER] No Match Found
+[CACHE] Miss
+[CACHE] Plan Saved
+[JARVIS]
+Execution Results
+Step   : 1
+Agent  : ORBIT
+Status : SUCCESS
+Result : ORBIT received task -> Set an alarm for every 20 minutes till next 2 hours
+
+You: make detailed resurch on raj samani's podcast and tell me about vaibhava sisinty
+
+[STEP 1] Intent Router
+[ROUTER] No Match Found
+[CACHE] Miss
+[CACHE] Plan Saved
+[JARVIS]
+Execution Results
+Step   : 1
+Agent  : PHANTOM
+Status : SUCCESS
+Result : PHANTOM received task -> Make detailed research on Raj Samani's podcast
+Step   : 2
+Agent  : PHANTOM
+Status : SUCCESS
+Result : PHANTOM received task -> Research Vaibhava Sisinty
+
+You: generate youtube video and describe raj samani's posdcast
+
+[STEP 1] Intent Router
+APOLLO -> ['youtube', 'video']
+[ROUTER] Direct Route → APOLLO
+[JARVIS]
+Execution Results
+Step   : 1
+Agent  : APOLLO
+Status : SUCCESS
+Result : APOLLO received task -> generate youtube video and describe raj samani's posdcast
+
+You: check cctv camara and show me feed of 09-06-2026 10:00 AM
+
+[STEP 1] Intent Router
+SENTINEL -> ['cctv']
+[ROUTER] Direct Route → SENTINEL
+[JARVIS]
+Execution Results
+Step   : 1
+Agent  : SENTINEL
+Status : SUCCESS
+Result : SENTINEL received task -> check cctv camara and show me feed of 09-06-2026 10:00 AM
+
+You: take image of mine now
+
+[STEP 1] Intent Router
+[ROUTER] No Match Found
+[CACHE] Miss
+[CACHE] Plan Saved
+[JARVIS]
+Execution Results
+Step   : 1
+Agent  : ORBIT
+Status : SUCCESS
+Result : ORBIT received task -> Take a screenshot
+
+You: capture me now
+
+[STEP 1] Intent Router
+[ROUTER] No Match Found
+[CACHE] Miss
+[CACHE] Plan Saved
+[JARVIS]
+Execution Results
+Step   : 1
+Agent  : SENTINEL
+Status : SUCCESS
+Result : SENTINEL received task -> Capture screenshot now
+
+You: start record video using my front camara
+
+[STEP 1] Intent Router
+APOLLO -> ['video']
+[ROUTER] Direct Route → APOLLO
+[JARVIS]
+Execution Results
+Step   : 1
+Agent  : APOLLO
+Status : SUCCESS
+Result : APOLLO received task -> start record video using my front camara
+
+You: tell me neworth of raj samani and elon musk
+
+[STEP 1] Intent Router
+[ROUTER] No Match Found
+[CACHE] Miss
+[CACHE] Plan Saved
+[JARVIS]
+Execution Results
+Step   : 1
+Agent  : PHANTOM
+Status : SUCCESS
+Result : PHANTOM received task -> Research net worth of Raj Samani and Elon Musk
+
+You: hello jarvis
+
+[STEP 1] Intent Router
+[ROUTER] No Match Found
+[CACHE] Miss
+[CACHE] Plan Saved
+[JARVIS]
+Execution Results
+Step   : 1
+Agent  : MERCURY
+Status : SUCCESS
+Result : MERCURY received task -> Respond to greeting
+
+You: gime my spending all my spending of last monts using my gmail history
+
+[STEP 1] Intent Router
+MERCURY -> ['gmail']
+[ROUTER] Direct Route → MERCURY
+[JARVIS]
+Execution Results
+Step   : 1
+Agent  : MERCURY
+Status : SUCCESS
+Result : MERCURY received task -> gime my spending all my spending of last monts using my gmail history
+
+You: 

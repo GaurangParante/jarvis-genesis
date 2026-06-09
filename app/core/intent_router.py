@@ -30,6 +30,11 @@ class IntentRouter:
                 "browser",
                 "vs code",
                 "vscode",
+
+                "search",
+                "google",
+                "youtube search",
+                "youtube",
             ],
 
             "PHANTOM": [
@@ -88,11 +93,11 @@ class IntentRouter:
             ],
 
             "APOLLO": [
-                "youtube",
                 "thumbnail",
                 "video",
                 "channel",
                 "seo",
+                "script",
             ],
 
             "SENTINEL": [
