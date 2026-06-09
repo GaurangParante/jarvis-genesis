@@ -814,5 +814,8 @@
     "sourcetree": "C:\\Users\\bhave\\AppData\\Local\\SourceTree\\SourceTree.exe",
     "askpass": "C:\\Users\\bhave\\AppData\\Local\\SourceTree\\app-3.4.26\\tools\\Askpass.exe",
     "stree_gri": "C:\\Users\\bhave\\AppData\\Local\\SourceTree\\app-3.4.26\\tools\\stree_gri.exe",
-    "codesetup-stable-6a44c352bd24569c417e530095901b649960f9f8": "C:\\Users\\bhave\\AppData\\Local\\Temp\\vscode-stable-user-x64\\CodeSetup-stable-6a44c352bd24569c417e530095901b649960f9f8.exe"
+    "codesetup-stable-6a44c352bd24569c417e530095901b649960f9f8": "C:\\Users\\bhave\\AppData\\Local\\Temp\\vscode-stable-user-x64\\CodeSetup-stable-6a44c352bd24569c417e530095901b649960f9f8.exe",
+    "vscode": "C:\\Users\\bhave\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
+    "visual studio code": "C:\\Users\\bhave\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
+    "wampmanager": "D:\\wamp64\\wampmanager.exe"
 }

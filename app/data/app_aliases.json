@@ -1,15 +1,41 @@
 {
-    "file manager": "explorer",
-    "file explorer": "explorer",
-    "explorer": "explorer",
+    "chrome":"chrome",
+    "google chrome":"chrome",
 
-    "edge": "msedge",
-    "microsoft edge": "msedge",
+    "vscode":"code",
+    "visual studio code":"code",
 
-    "visual studio code": "code",
-    "vs code": "code",
+    "notepad":"notepad",
 
-    "youtube": "https://youtube.com",
-    "gmail": "https://mail.google.com",
-    "github": "https://github.com"
+    "spotify":"spotify",
+
+    "discord":"discord",
+
+    "telegram":"telegram",
+
+    "calculator":"calc",
+
+    "paint":"mspaint",
+
+    "cmd":"cmd",
+
+    "command prompt":"cmd",
+
+    "powershell":"powershell",
+
+    "file explorer":"explorer",
+
+    "explorer":"explorer",
+
+    "downloads":"downloads",
+
+    "desktop":"desktop",
+
+    "documents":"documents",
+
+    "youtube":"https://youtube.com",
+
+    "gmail":"https://mail.google.com",
+
+    "github":"https://github.com"
 }

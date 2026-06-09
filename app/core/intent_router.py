@@ -49,7 +49,6 @@ class IntentRouter:
 
             "ARCHIVE": [
                 "pdf",
-                "document",
                 "docs",
                 "notes",
                 "knowledge",
@@ -111,7 +110,7 @@ class IntentRouter:
 
     def route(self, user_input):
 
-        result = self.detect_agent(user_input)
+        result = self.detect_agents(user_input)
 
         return result
 

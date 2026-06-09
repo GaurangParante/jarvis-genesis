@@ -2,120 +2,218 @@ import os
 import webbrowser
 import subprocess
 import shutil
+import psutil
+import time
+import numpy as np
+import cv2
+from datetime import datetime
+from pathlib import Path
+import mss
+import json
 
+# Windows specific integrations
+import screen_brightness_control as sbc
+from ctypes import cast, POINTER
+from comtypes import CLSCTX_ALL
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+
+SPECIAL_FOLDERS = {
+    "desktop": os.path.join(os.environ["USERPROFILE"], "Desktop") if os.path.exists(os.path.join(os.environ["USERPROFILE"], "Desktop")) else os.path.join(os.environ["USERPROFILE"], "OneDrive", "Desktop"),
+    "downloads": os.path.join(os.environ["USERPROFILE"], "Downloads"),
+    "documents": os.path.join(os.environ["USERPROFILE"], "Documents") if os.path.exists(os.path.join(os.environ["USERPROFILE"], "Documents")) else os.path.join(os.environ["USERPROFILE"], "OneDrive", "Documents"),
+    "pictures": os.path.join(os.environ["USERPROFILE"], "Pictures"),
+    "music": os.path.join(os.environ["USERPROFILE"], "Music"),
+    "videos": os.path.join(os.environ["USERPROFILE"], "Videos"),
+}
 
 class OrbitTools:
-
-    # -------------------------
-    # OPEN APPLICATION
-    # -------------------------
+    SPECIAL_FOLDERS = SPECIAL_FOLDERS
 
     @staticmethod
     def open_application(app_name):
-
+        app_name = app_name.lower().strip()
+        if app_name in SPECIAL_FOLDERS:
+            os.startfile(SPECIAL_FOLDERS[app_name])
+            return f"{app_name} folder opened"
         try:
+            with open("app/data/app_aliases.json", "r", encoding="utf-8") as f:
+                aliases = json.load(f)
+        except Exception:
+            aliases = {}
+        app_name = aliases.get(app_name, app_name)
 
-            app_name = app_name.strip()
+        if app_name.startswith("http"):
+            webbrowser.open(app_name)
+            return f"Opened {app_name}"
 
-            path = shutil.which(app_name)
-
-            if path:
-
-                subprocess.Popen(path)
-
-                return f"{app_name} opened"
-
-            subprocess.Popen(
-                f'start "" "{app_name}"',
-                shell=True
-            )
-
+        path = shutil.which(app_name)
+        if path:
+            subprocess.Popen(path)
             return f"{app_name} opened"
 
+        try:
+            with open("app/data/apps.json", "r", encoding="utf-8") as f:
+                apps = json.load(f)
         except Exception:
+            apps = {}
 
-            return f"{app_name} not found"
+        if app_name in apps:
+            subprocess.Popen(apps[app_name])
+            return f"{app_name} opened"
 
-    # -------------------------
-    # OPEN WEBSITE
-    # -------------------------
+        return f"{app_name} not found"
 
     @staticmethod
     def open_url(url):
-
         webbrowser.open(url)
-
         return f"Opened {url}"
-
-    # -------------------------
-    # GOOGLE SEARCH
-    # -------------------------
 
     @staticmethod
     def google_search(query):
-
-        url = (
-            "https://www.google.com/search?q="
-            + query.replace(" ", "+")
-        )
-
+        url = "https://www.google.com/search?q=" + query.replace(" ", "+")
         webbrowser.open(url)
-
         return f"Searching Google: {query}"
-
-    # -------------------------
-    # YOUTUBE SEARCH
-    # -------------------------
 
     @staticmethod
     def youtube_search(query):
-
-        url = (
-            "https://www.youtube.com/results?search_query="
-            + query.replace(" ", "+")
-        )
-
+        url = "https://www.youtube.com/results?search_query=" + query.replace(" ", "+")
         webbrowser.open(url)
-
         return f"Searching YouTube: {query}"
-
-    # -------------------------
-    # FILE EXPLORER
-    # -------------------------
 
     @staticmethod
     def open_file_explorer():
-
         subprocess.Popen("explorer")
-
         return "File Explorer opened"
 
-    # -------------------------
-    # OPEN FOLDER
-    # -------------------------
+    @staticmethod
+    def close_application(app_name):
+        app_name = app_name.lower()
+        closed = False
+        for proc in psutil.process_iter(["pid", "name"]):
+            try:
+                process_name = proc.info["name"].lower()
+                if app_name in process_name or app_name.replace(".exe", "") in process_name:
+                    proc.kill()
+                    closed = True
+            except Exception:
+                pass
+        return f"{app_name} closed" if closed else f"{app_name} not running"
 
     @staticmethod
-    def open_folder(path):
-
-        if os.path.exists(path):
-
-            os.startfile(path)
-
-            return f"Opened folder: {path}"
-
-        return "Folder not found"
-
-    # -------------------------
-    # OPEN FILE
-    # -------------------------
+    def open_downloads():
+        os.startfile(SPECIAL_FOLDERS["downloads"])
+        return "Downloads opened"
 
     @staticmethod
-    def open_file(path):
+    def open_desktop():
+        os.startfile(SPECIAL_FOLDERS["desktop"])
+        return "Desktop opened"
 
-        if os.path.exists(path):
+    # ==================================
+    # NEW EXTENDED HARDWARE FEATURES
+    # ==================================
 
-            os.startfile(path)
+    @staticmethod
+    def set_volume(level: int):
+        try:
+            from pycaw.pycaw import AudioUtilities
+            from comtypes import GUID
+            
+            devices = AudioUtilities.GetSpeakers()
+            # Direct IAudioEndpointVolume interface GUID manually pass system mapping
+            IAudioEndpointVolume_IID = GUID('{5CDF2C82-841E-4546-9722-0CF74078229A}')
+            interface = devices.Activate(IAudioEndpointVolume_IID, 2, None)
+            
+            from pycaw.pycaw import IAudioEndpointVolume
+            from ctypes import cast, POINTER
+            volume = cast(interface, POINTER(IAudioEndpointVolume))
+            
+            level = max(0, min(100, level))
+            volume.SetMasterVolumeLevelScalar(level / 100.0, None)
+            return f"Volume set to {level}%"
+        except Exception as e:
+            return f"Failed to set volume: {str(e)}"
 
-            return f"Opened file: {path}"
+    @staticmethod
+    def set_brightness(level: int):
+        try:
+            level = max(0, min(100, level))
+            sbc.set_brightness(level)
+            return f"Brightness set to {level}%"
+        except Exception as e:
+            return f"Failed to set brightness: {str(e)}"
 
-        return "File not found"
+    # ==================================
+    # MEDIA CAPTURES & RECORDINGS
+    # ==================================
+
+    @staticmethod
+    def take_screenshot():
+        os.makedirs("app/data/screenshots", exist_ok=True)
+        filename = f"app/data/screenshots/screenshot_{datetime.now():%Y%m%d_%H%M%S}.png"
+        try:
+            with mss.mss() as sct:
+                sct.shot(output=filename)
+            return f"Screenshot saved -> {filename}"
+        except Exception as e:
+            return f"Screenshot failed -> {str(e)}"
+
+    @staticmethod
+    def capture_webcam_image():
+        os.makedirs("app/data/captures", exist_ok=True)
+        filename = f"app/data/captures/webcam_{datetime.now():%Y%m%d_%H%M%S}.jpg"
+        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW) # Fast boot capture
+        if not cap.isOpened():
+            return "Error: Webcam could not be accessed."
+        time.sleep(1.5) # Camera warm-up delay time
+        ret, frame = cap.read()
+        if ret:
+            cv2.imwrite(filename, frame)
+            cap.release()
+            return f"Webcam Image saved -> {filename}"
+        cap.release()
+        return "Failed to grab frame from webcam"
+
+    @staticmethod
+    def record_webcam_video(duration=10):
+        os.makedirs("app/data/recordings", exist_ok=True)
+        filename = f"app/data/recordings/webcam_rec_{datetime.now():%Y%m%d_%H%M%S}.mp4"
+        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+        if not cap.isOpened(): return "Error: Webcam not accessible."
+        
+        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        out = cv2.VideoWriter(filename, fourcc, 20.0, (640, 480))
+        
+        start_time = time.time()
+        while int(time.time() - start_time) < duration:
+            ret, frame = cap.read()
+            if ret:
+                out.write(frame)
+            else:
+                break
+        cap.release()
+        out.release()
+        return f"Webcam Video recorded ({duration}s) -> {filename}"
+
+    @staticmethod
+    def record_screen(duration=10):
+        os.makedirs("app/data/recordings", exist_ok=True)
+        filename = f"app/data/recordings/screen_rec_{datetime.now():%Y%m%d_%H%M%S}.mp4"
+        
+        with mss.mss() as sct:
+            monitor = sct.monitors[1] # Primary screen
+            width = monitor["width"]
+            height = monitor["height"]
+            
+            fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+            out = cv2.VideoWriter(filename, fourcc, 12.0, (width, height))
+            
+            start_time = time.time()
+            while int(time.time() - start_time) < duration:
+                img = np.array(sct.grab(monitor))
+                frame = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR) # Matrix compression
+                out.write(frame)
+                time.sleep(0.05) # Cap loop rate
+                
+            out.release()
+        return f"Screen Recording saved ({duration}s) -> {filename}"

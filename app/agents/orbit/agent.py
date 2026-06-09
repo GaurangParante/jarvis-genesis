@@ -1,3 +1,4 @@
+from app.core.executor import Executor
 class OrbitAgent:
 
     name = "ORBIT"
@@ -69,4 +70,15 @@ class OrbitAgent:
     ]
 
     def handle(self, task):
-        return f"ORBIT received task -> {task}"
+
+        executor = Executor()
+
+        queue = [
+            {
+                "step": 1,
+                "agent": "ORBIT",
+                "task": task
+            }
+        ]
+
+        return executor.execute(queue)

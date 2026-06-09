@@ -125,5 +125,307 @@
                 "task": "analyze my expenses"
             }
         ]
+    },
+    "take screenshot": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "take screenshot"
+            }
+        ]
+    },
+    "pip install --upgrade pillow pyscreeze pyautogui\u001a": {
+        "agents": [
+            {
+                "name": "FORGE",
+                "task": "Run pip install --upgrade pillow pyscreeze pyautogui"
+            }
+        ]
+    },
+    "desktop": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "desktop"
+            }
+        ]
+    },
+    "open document": {
+        "agents": [
+            {
+                "name": "ARCHIVE",
+                "task": "open document"
+            }
+        ]
+    },
+    "opn slack": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Open Slack"
+            }
+        ]
+    },
+    "screenshots": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "screenshots"
+            }
+        ]
+    },
+    "open code": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "open code"
+            }
+        ]
+    },
+    "closw slack": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Close Slack"
+            }
+        ]
+    },
+    "set volume 50": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Set volume to 50"
+            }
+        ]
+    },
+    "screen brightness 80": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Adjust screen brightness to 80"
+            }
+        ]
+    },
+    "screen brightness 40": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Adjust screen brightness to 40"
+            }
+        ]
+    },
+    "screen brightness 100": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Set screen brightness to 100"
+            }
+        ]
+    },
+    "take a screenshot": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "take a screenshot"
+            }
+        ]
+    },
+    "capture webcam image": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "capture webcam image"
+            }
+        ]
+    },
+    "open folder project": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Open folder project"
+            }
+        ]
+    },
+    "[jarvis]": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Open Chrome"
+            }
+        ]
+    },
+    "execution results": {
+        "agents": [
+            {
+                "name": "FORGE",
+                "task": "Analyze execution results"
+            }
+        ]
+    },
+    "step   : 1": {
+        "agents": [
+            {
+                "name": "PHANTOM",
+                "task": "Perform market analysis"
+            }
+        ]
+    },
+    "agent  : orbit": {
+        "agents": [
+            {
+                "name": "PHANTOM",
+                "task": "Agent  : ORBIT"
+            }
+        ]
+    },
+    "status : success": {
+        "agents": []
+    },
+    "open https://linkedin.com": {
+        "agents": [
+            {
+                "name": "NOVA",
+                "task": "open https://linkedin.com"
+            }
+        ]
+    },
+    "start microsoft edge": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "start microsoft edge"
+            }
+        ]
+    },
+    "search python tutorials": {
+        "agents": [
+            {
+                "name": "ARCHIVE",
+                "task": "search python tutorials"
+            }
+        ]
+    },
+    "search on youtube jarvis project": {
+        "agents": [
+            {
+                "name": "APOLLO",
+                "task": "search on youtube jarvis project"
+            }
+        ]
+    },
+    "youtube python documentation": {
+        "agents": [
+            {
+                "name": "APOLLO",
+                "task": "Youtube python documentation"
+            }
+        ]
+    },
+    "search youtube open ai news": {
+        "agents": [
+            {
+                "name": "APOLLO",
+                "task": "search youtube open ai news"
+            }
+        ]
+    },
+    "set volume 0": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Set volume to 0"
+            }
+        ]
+    },
+    "mute volume": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Mute volume"
+            }
+        ]
+    },
+    "set volume 100": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Set volume to 100"
+            }
+        ]
+    },
+    "volume 75": {
+        "agents": []
+    },
+    "set brightness 100": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Set screen brightness to 100"
+            }
+        ]
+    },
+    "brightness 20": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Adjust screen brightness to 20"
+            }
+        ]
+    },
+    "maximum brightness": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Set screen brightness to maximum"
+            }
+        ]
+    },
+    "take screen shot": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "take screen shot"
+            }
+        ]
+    },
+    "take picture": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "take picture"
+            }
+        ]
+    },
+    "webcam image": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "webcam image"
+            }
+        ]
+    },
+    "record screen 10 sec": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "record screen 10 sec"
+            }
+        ]
+    },
+    "screen recording 5 sec": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "screen recording 5 sec"
+            }
+        ]
+    },
+    "record webcam 5 sec": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "record webcam 5 sec"
+            }
+        ]
     }
 }
