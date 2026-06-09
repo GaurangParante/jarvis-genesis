@@ -22,5 +22,8 @@ class SentinelAgent:
         "system_monitoring"
     ]
 
-    def handle(self):
-        return "Ready for security tasks."
+    def handle(self, task):
+
+        return (
+            f"SENTINEL received task -> {task}"
+        )

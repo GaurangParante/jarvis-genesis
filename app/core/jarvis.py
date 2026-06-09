@@ -2,6 +2,8 @@ from app.core.intent_router import IntentRouter
 from app.core.llm_router import LLMRouter
 from app.core.planner import Planner
 from app.memory.command_cache import CommandCache
+from app.core.executor import Executor
+from app.core.agent_registry import AgentRegistry
 
 
 class Jarvis:
@@ -15,6 +17,12 @@ class Jarvis:
         self.planner = Planner()
 
         self.cache = CommandCache()
+
+        self.registry = AgentRegistry()
+
+        self.executor = Executor(
+            self.registry
+        )
 
     def process(self, user_input):
 
@@ -116,20 +124,25 @@ class Jarvis:
             execution_plan
         )
 
+        results = self.executor.execute(
+            queue
+        )
+
         # ==========================
         # OUTPUT
         # ==========================
 
         output = "\n[JARVIS]\n\n"
 
-        output += "Execution Queue\n\n"
+        output += "Execution Results\n\n"
 
-        for item in queue:
+        for result in results:
 
             output += (
-                f"Step {item['step']}\n"
-                f"Agent : {item['agent']}\n"
-                f"Task  : {item['task']}\n\n"
+                f"Step   : {result['step']}\n"
+                f"Agent  : {result['agent']}\n"
+                f"Status : {result['status']}\n"
+                f"Result : {result['message']}\n\n"
             )
 
         return output

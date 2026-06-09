@@ -23,5 +23,8 @@ class NovaAgent:
         "social_analytics"
     ]
 
-    def handle(self):
-        return "Ready for social media tasks."
+    def handle(self, task):
+
+        return (
+            f"NOVA received task -> {task}"
+        )

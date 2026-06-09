@@ -25,5 +25,8 @@ class ForgeAgent:
         "software_development"
     ]
 
-    def handle(self):
-        return "Ready for coding tasks."
+    def handle(self, task):
+
+        return (
+            f"FORGE received task -> {task}"
+        )

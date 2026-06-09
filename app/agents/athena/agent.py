@@ -22,5 +22,8 @@ class AthenaAgent:
         "health_analysis"
     ]
 
-    def handle(self):
-        return "Ready for fitness tasks."
+    def handle(self, task):
+
+        return (
+            f"ATHENA received task -> {task}"
+        )    

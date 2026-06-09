@@ -24,5 +24,8 @@ class OrbitAgent:
         "command_execution"
     ]
 
-    def handle(self):
-        return "Ready for desktop automation tasks."
+    def handle(self, task):
+
+        return (
+            f"ORBIT received task -> {task}"
+        )

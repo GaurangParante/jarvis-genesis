@@ -23,5 +23,8 @@ class ApolloAgent:
         "channel_management"
     ]
 
-    def handle(self):
-        return "Ready for YouTube tasks."
+    def handle(self, task):
+
+        return (
+            f"APOLLO received task -> {task}"
+        )

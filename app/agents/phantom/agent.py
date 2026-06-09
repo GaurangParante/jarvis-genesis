@@ -22,5 +22,8 @@ class PhantomAgent:
         "trend_analysis"
     ]
 
-    def handle(self):
-        return "Ready for research tasks."
+    def handle(self, task):
+
+        return (
+            f"PHANTOM received task -> {task}"
+        )

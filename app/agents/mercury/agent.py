@@ -22,5 +22,8 @@ class MercuryAgent:
         "inbox_management"
     ]
 
-    def handle(self):
-        return "Ready for communication tasks."
+    def handle(self, task):
+
+        return (
+            f"MERCURY received task -> {task}"
+        )

@@ -22,5 +22,8 @@ class ArchiveAgent:
         "vector_search"
     ]
 
-    def handle(self):
-        return "Ready for document and knowledge tasks."
+    def handle(self, task):
+
+        return (
+            f"ARCHIVE received task -> {task}"
+        )

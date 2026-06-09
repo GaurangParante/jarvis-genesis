@@ -22,5 +22,8 @@ class TitanAgent:
         "tax_management"
     ]
 
-    def handle(self):
-        return "Ready for finance tasks."
+    def handle(self, task):
+
+        return (
+            f"TITAN received task -> {task}"
+        )
