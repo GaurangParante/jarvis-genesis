@@ -116,23 +116,36 @@ class OrbitTools:
     @staticmethod
     def set_volume(level: int):
         try:
-            from pycaw.pycaw import AudioUtilities
-            from comtypes import GUID
-            
-            devices = AudioUtilities.GetSpeakers()
-            # Direct IAudioEndpointVolume interface GUID manually pass system mapping
-            IAudioEndpointVolume_IID = GUID('{5CDF2C82-841E-4546-9722-0CF74078229A}')
-            interface = devices.Activate(IAudioEndpointVolume_IID, 2, None)
-            
-            from pycaw.pycaw import IAudioEndpointVolume
-            from ctypes import cast, POINTER
-            volume = cast(interface, POINTER(IAudioEndpointVolume))
+            import ctypes
+            import time
             
             level = max(0, min(100, level))
-            volume.SetMasterVolumeLevelScalar(level / 100.0, None)
+            
+            # Windows Virtual Key Codes for Volume
+            VK_VOLUME_MUTE = 0xAD
+            VK_VOLUME_DOWN = 0xAE
+            VK_VOLUME_UP = 0xAF
+            
+            # Master volume controller instance via Shell Object
+            # Yeh bina pycaw ke direct hardware volume levels toggle karega
+            import win32com.client
+            shell = win32com.client.Dispatch("WScript.Shell")
+            
+            # Step 1: Pehle system ko full mute (0) pe le jao taaki ek base point mile
+            # 50 baar volume down dabane se volume pakka 0 ho jayega
+            for _ in range(50):
+                shell.SendKeys(chr(VK_VOLUME_DOWN))
+                
+            # Step 2: Ab jitna level chahiye us hisab se UP keys press karo
+            # Windows me 1 key press = 2% volume bar growth
+            up_clicks = int(level / 2)
+            for _ in range(up_clicks):
+                shell.SendKeys(chr(VK_VOLUME_UP))
+                
             return f"Volume set to {level}%"
+            
         except Exception as e:
-            return f"Failed to set volume: {str(e)}"
+            return f"Failed to set volume via Shell: {str(e)}"
 
     @staticmethod
     def set_brightness(level: int):

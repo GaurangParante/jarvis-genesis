@@ -68,20 +68,28 @@ class FileTools:
 
         for base_dir in search_dirs:
             try:
-                # Direct os.walk fallback but with targeted max-depth checking to maintain extreme speed
+                import os
                 for root, dirs, files in os.walk(base_dir):
-                    # Filter paths early
                     dirs[:] = [d for d in dirs if d.lower() not in skip_folders]
-                    
-                    # Prevent going into infinitely deep system paths
                     if root.count(os.sep) - base_dir.count(os.sep) > 3:
-                        del dirs[:] # Stop deeper evaluation
+                        del dirs[:]
                         continue
                         
                     for file in files:
                         if file_name in file.lower():
                             full_path = os.path.join(root, file)
-                            os.startfile(full_path)
+                            
+                            # Code/Text files ko text editors me force open karne ke liye check
+                            if file.endswith(('.py', '.txt', '.json', '.md', '.html', '.css', '.js')):
+                                # Pehle VS Code me try karo, nahi toh Notepad me kholo
+                                import shutil
+                                if shutil.which("code"):
+                                    os.system(f'code "{full_path}"')
+                                else:
+                                    os.system(f'notepad.exe "{full_path}"')
+                            else:
+                                os.startfile(full_path)
+                                
                             return f"Opened file: {full_path}"
             except Exception:
                 continue

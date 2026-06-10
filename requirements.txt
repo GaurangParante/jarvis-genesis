@@ -12,3 +12,5 @@ pyscreeze
 pycaw
 screen-brightness-control
 comtypes
+pylint
+pywin32
