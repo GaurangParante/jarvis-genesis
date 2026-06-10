@@ -1,9 +1,25 @@
 {
-    "set volume 50": {
+    "open cmd": {
         "agents": [
             {
                 "name": "ORBIT",
-                "task": "Set volume to 50"
+                "task": "open cmd"
+            }
+        ]
+    },
+    "open terminal": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Open terminal"
+            }
+        ]
+    },
+    "make script on root folder to get my file structure do not include files as written in .gitignore file": {
+        "agents": [
+            {
+                "name": "FORGE",
+                "task": "Create a script to get the file structure in the root folder excluding files listed in .gitignore"
             }
         ]
     }

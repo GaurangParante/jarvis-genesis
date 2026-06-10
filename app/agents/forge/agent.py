@@ -3,11 +3,10 @@ class ForgeAgent:
     name = "FORGE"
 
     description = """
-    Software Development Agent.
-
-    Responsible for software engineering, coding,
-    debugging, project generation, APIs,
-    databases and development workflows.
+    Software Development and Coding Agent.
+    Responsible for writing scripts, software engineering, coding from scratch,
+    debugging, project generation, APIs, databases, and automated backend development workflows.
+    Use this agent whenever the user wants to write, create, generate, or modify any code, file, or script.
     """
 
     capabilities = [
@@ -22,7 +21,10 @@ class ForgeAgent:
         "project_creation",
         "software_development",
         "git",
-        "automation_scripts"
+        "automation_scripts",
+        "write_script",
+        "create_file",
+        "coding"
     ]
 
     examples = [
@@ -40,8 +42,12 @@ class ForgeAgent:
         "create ai chatbot",
         "setup fastapi project",
         "create node js api",
-        "write python script"
+        "write python script",
+        "create a script named test_bot.py",
+        "generate automation script",
+        "write a code to calculation"
     ]
 
     def handle(self, task):
+        # Executor handles the direct logic in executor.py now
         return f"FORGE received task -> {task}"

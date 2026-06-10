@@ -1,29 +1,177 @@
-import os
+import json
 
-def generate_codebase_summary(start_dir, output_file="project_summary.md"):
-    # Folders to ignore to keep the output clean
-    ignore_dirs = {'.git', '__pycache__', 'venv', '.idea', '.vscode', 'node_modules'}
-    
-    with open(output_file, 'w', encoding='utf-8') as f:
-        f.write("# Project Architecture Map\n\n")
-        
-        for root, dirs, files in os.walk(start_dir):
-            # Filter out ignored directories
-            dirs[:] = [d for d in dirs if d not in ignore_dirs]
-            
-            level = root.replace(start_dir, '').count(os.sep)
-            indent = ' ' * 4 * level
-            sub_indent = ' ' * 4 * (level + 1)
-            
-            # Write folder name
-            f.write(f"{indent}- 📁 **{os.path.basename(root)}/**\n")
-            
-            for file in files:
-                if file.endswith(('.py', '.js', '.json', '.html', '.css', '.md')): # Add extensions you care about
-                    f.write(f"{sub_indent}- 📄 {file}\n")
-                    
-    print(f"✅ Project map successfully generated in {output_file}")
+# Define the tree structure
+active_tree_map = {
+  "root": [
+    ".gitignore",
+    "main.py",
+    "map_project.py",
+    "README.md",
+    "requirements.txt"
+  ],
+  "app": [
+    "__init__.py"
+  ],
+  "app\\agents": [
+    "__init__.py"
+  ],
+  "app\\agents\\apollo": [
+    "agent.py",
+    "prompts.py",
+    "tools.py",
+    "__init__.py"
+  ],
+  "app\\agents\\archive": [
+    "agent.py",
+    "prompts.py",
+    "tools.py",
+    "__init__.py"
+  ],
+  "app\\agents\\athena": [
+    "agent.py",
+    "prompts.py",
+    "tools.py",
+    "__init__.py"
+  ],
+  "app\\agents\\forge": [
+    "agent.py",
+    "prompts.py",
+    "tools.py",
+    "__init__.py"
+  ],
+  "app\\agents\\mercury": [
+    "agent.py",
+    "prompts.py",
+    "tools.py",
+    "__init__.py"
+  ],
+  "app\\agents\\nova": [
+    "agent.py",
+    "prompts.py",
+    "tools.py",
+    "__init__.py"
+  ],
+  "app\\agents\\orbit": [
+    "agent.py",
+    "prompts.py",
+    "tools.py",
+    "__init__.py"
+  ],
+  "app\\agents\\phantom": [
+    "agent.py",
+    "prompts.py",
+    "tools.py",
+    "__init__.py"
+  ],
+  "app\\agents\\sentinel": [
+    "agent.py",
+    "prompts.py",
+    "tools.py",
+    "__init__.py"
+  ],
+  "app\\agents\\titan": [
+    "agent.py",
+    "prompts.py",
+    "tools.py",
+    "__init__.py"
+  ],
+  "app\\core": [
+    "agent_registry.py",
+    "config.py",
+    "executor.py",
+    "intent_router.py",
+    "jarvis.py",
+    "llm_router.py",
+    "planner.py",
+    "semantic_router.py",
+    "__init__.py"
+  ],
+  "app\\data": [
+    "apps.json",
+    "app_aliases.json"
+  ],
+  "app\\data\\captures": [
+    "webcam_20260610_012713.jpg",
+    "webcam_20260610_015832.jpg",
+    "webcam_20260610_015845.jpg",
+    "webcam_20260610_015856.jpg"
+  ],
+  "app\\data\\recordings": [
+    "screen_rec_20260610_015907.mp4",
+    "screen_rec_20260610_015957.mp4",
+    "screen_rec_20260610_020025.mp4",
+    "webcam_rec_20260610_020048.mp4"
+  ],
+  "app\\data\\screenshots": [
+    "screenshot_20260610_012701.png",
+    "screenshot_20260610_015813.png",
+    "screenshot_20260610_015822.png"
+  ],
+  "app\\data\\temp": [],
+  "app\\embeddings": [
+    "embedding_service.py"
+  ],
+  "app\\intents": [
+    "automation.py",
+    "coding.py",
+    "email.py",
+    "finance.py",
+    "fitness.py",
+    "social.py",
+    "__init__.py"
+  ],
+  "app\\memory": [
+    "cache.json",
+    "command_cache.py"
+  ],
+  "app\\rag": [],
+  "app\\tools": [
+    "apollo_tools.py",
+    "app_discovery.py",
+    "app_scanner.py",
+    "browser_tools.py",
+    "file_tools.py",
+    "forge_tools.py",
+    "mercury_tools.py",
+    "orbit_tools.py",
+    "run_scan.py",
+    "sentinel_tools.py",
+    "titan_tools.py",
+    "tool_registry.py"
+  ],
+  "app\\vectorstore": [
+    "agent_vectors.json",
+    "build_index.py",
+    "faiss_index.bin",
+    "metadata.json"
+  ],
+  "app\\voice": [],
+  "data": [],
+  "data\\screenshots": [
+    "screenshot_20260610_004015.png"
+  ],
+  "docs": [
+    "how_it_works.md"
+  ],
+  "system_docs": [
+    "ChatGPT Image Jun 9, 2026, 09_47_15 AM.png",
+    "ChatGPT Image Jun 9, 2026, 09_53_52 AM.png",
+    "ChatGPT Image Jun 9, 2026, 09_55_14 AM.png"
+  ],
+  "tests": [
+    "test_cache.py",
+    "test_semantic_router.py",
+    "__init__.py"
+  ]
+}
 
-if __name__ == "__main__":
-    # Runs from the current directory of the script
-    generate_codebase_summary(os.getcwd())
+# Define the .gitignore files
+with open('D:\\gaurang\\jarvis-genesis\\.gitignore', 'r') as f:
+    gitignore_files = f.readlines()
+
+# Remove .gitignore files from the tree structure
+for key, value in active_tree_map.items():
+    active_tree_map[key] = [file for file in value if file not in gitignore_files]
+
+# Print the updated tree structure
+print(json.dumps(active_tree_map, indent=4))

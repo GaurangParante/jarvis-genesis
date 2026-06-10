@@ -1,38 +1,13 @@
 from app.core.executor import Executor
+
 class OrbitAgent:
 
     name = "ORBIT"
 
     description = """
     Desktop Automation Agent.
-
-    Responsibilities:
-
-    - Open applications
-    - Open VS Code
-    - Open Chrome
-    - Open folders
-    - Open files
-
-    Camera Operations:
-
-    - Open webcam
-    - Capture image
-    - Take photo
-    - Take picture
-    - Selfie capture
-    - Webcam snapshot
-    - Camera control
-
-    Screen Operations:
-
-    - Screenshot capture
-    - Screen recording
-
-    Desktop Control:
-
-    - Launch programs
-    - Browser automation
+    Handles opening local system applications, system settings, capturing webcam/screenshots, 
+    and general operating system tasks. Do NOT use this for writing code or generating programming scripts.
     """
 
     capabilities = [
@@ -70,9 +45,7 @@ class OrbitAgent:
     ]
 
     def handle(self, task):
-
         executor = Executor()
-
         queue = [
             {
                 "step": 1,
@@ -80,5 +53,4 @@ class OrbitAgent:
                 "task": task
             }
         ]
-
         return executor.execute(queue)

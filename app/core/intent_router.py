@@ -3,143 +3,68 @@ import re
 class IntentRouter:
 
     def __init__(self):
-
-        self.intent_map = {
-
+        # Variable ka naam strictly 'strict_overrides' rakha hai taaki loop crash na ho.
+        # Saare generic single-words ko saaf karke strictly multi-word phrases bana diye hain.
+        self.strict_overrides = {
             "FORGE": [
-                "code",
-                "coding",
-                "laravel",
-                "python",
-                "debug",
-                "api",
-                "function",
-                "class",
-                "project",
-                "database",
-                "migration",
+                "laravel migration", "laravel project", "fastapi project", 
+                "mysql table", "git commit", "git push"
             ],
-
             "ORBIT": [
-                "open",
-                "close",
-                "launch",
-                "folder",
-                "application",
-                "chrome",
-                "browser",
-                "vs code",
-                "vscode",
-
-                "search",
-                "google",
-                "youtube search",
-                "youtube",
+                "take screenshot", "capture webcam", "record screen", "take selfie"
             ],
-
             "PHANTOM": [
-                "research",
-                "latest",
-                "news",
-                "trend",
-                "analysis",
-                "market",
-                "competitor",
+                "market analysis", "competitor research", "latest trend news"
             ],
-
             "ARCHIVE": [
-                "pdf",
-                "docs",
-                "notes",
-                "knowledge",
+                "knowledge base", "pdf document", "secure notes"
             ],
-
             "TITAN": [
-                "expense",
-                "income",
-                "budget",
-                "tax",
-                "finance",
-                "money",
-                "gpay",
+                "expense tracker", "budget tax", "gpay history", "finance money"
             ],
-
             "ATHENA": [
-                "gym",
-                "workout",
-                "fitness",
-                "exercise",
-                "diet",
-                "sleep",
-                "calories",
+                "workout routine", "gym diet", "calorie tracker"
             ],
-
             "MERCURY": [
-                "gmail",
-                "email",
-                "mail",
-                "reply",
-                "draft",
+                "gmail draft", "send email", "reply mail"
             ],
-
             "NOVA": [
-                "linkedin",
-                "instagram",
-                "facebook",
-                "twitter",
-                "social",
-                "post",
+                "linkedin post", "instagram story", "facebook page", "twitter tweet"
             ],
-
             "APOLLO": [
-                "thumbnail",
-                "video",
-                "channel",
-                "seo",
-                "script",
+                "youtube seo", "youtube analytics", "channel optimization"
             ],
-
             "SENTINEL": [
-                "security",
-                "password",
-                "alert",
-                "login",
-                "cctv",
-            ],
+                "password alert", "security login", "cctv footage"
+            ]
         }
 
     def route(self, user_input):
-
-        result = self.detect_agents(user_input)
-
-        return result
+        """
+        Main routing function. 
+        Agar strict pattern match nahi hota, toh yeh None return karega 
+        taaki system automatic FAISS Semantic Search par switch ho sake.
+        """
+        return self.detect_agents(user_input)
 
     def detect_agents(self, user_input):
-
-        text = user_input.lower()
-
+        text = user_input.lower().strip()
         scores = {}
 
-        for agent, keywords in self.intent_map.items():
+        # 1. High Priority Code/File Extension Rule (Direct Route to FORGE)
+        if re.search(r'\b\w+\.(py|js|php|html|css|json|sh|txt|csv)\b', text):
+            print("[ROUTER] File extension detected -> Prioritizing FORGE")
+            scores["FORGE"] = 5
+            return scores
 
-            score = 0
-            matched_keywords = []
+        # 2. Strict Phrase Matching (Using the correct 'strict_overrides' variable)
+        for agent, phrases in self.strict_overrides.items():
+            for phrase in phrases:
+                if phrase in text:
+                    print(f"[ROUTER] Strict phrase match found: '{phrase}' -> {agent}")
+                    scores[agent] = 4
+                    return scores
 
-            for keyword in keywords:
-
-                if re.search(
-                    rf"\b{re.escape(keyword)}\b",
-                    text
-                ):
-                    score += 1
-                    matched_keywords.append(keyword)
-
-            if score > 0:
-
-                print(
-                    f"{agent} -> {matched_keywords}"
-                )
-
-                scores[agent] = score
-
-        return scores
+        # 3. Fallback: Agar kuch bhi match nahi hua, toh None return karo.
+        # Isse aapka Jarvis fallback karke Semantic Router (FAISS) chalayega.
+        return None

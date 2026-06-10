@@ -1,10 +1,17 @@
-from app.core.jarvis import Jarvis
 import os
-import warnings
+from dotenv import load_dotenv
 
-# Hugging Face warning aur dusre cleanups ke liye
-os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
-warnings.filterwarnings("ignore", category=UserWarning, module="huggingface_hub")
+# 1. Load variables from .env file
+load_dotenv()
+
+# 2. Extract and strictly bind to OS environment for Hugging Face Hub
+hf_token = os.getenv("HF_TOKEN")
+if hf_token:
+    os.environ["HF_TOKEN"] = hf_token
+    # Optional: system crash errors bypass karne ke liye symbols cache bhi optimize kar sakte ho
+    os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
+
+from app.core.jarvis import Jarvis
 
 
 def main():

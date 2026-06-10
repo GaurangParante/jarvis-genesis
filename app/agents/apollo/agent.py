@@ -3,19 +3,17 @@ class ApolloAgent:
     name = "APOLLO"
 
     description = """
-    YouTube Growth Agent.
-
-    Responsible for research,
-    scripting, SEO,
-    thumbnails, publishing
-    and channel growth.
+    YouTube Growth and Video Content Agent.
+    Responsible for topic research, video_script_writing, YouTube SEO,
+    thumbnails, publishing and channel growth analytics.
+    Do NOT use this agent for programming, coding, or writing automated python/bash scripts.
     """
 
     capabilities = [
         "youtube",
         "seo",
         "video_creation",
-        "script_writing",
+        "video_script_writing",
         "thumbnail_generation",
         "channel_management",
         "analytics"

@@ -9,40 +9,27 @@ from app.memory.command_cache import CommandCache
 class Jarvis:
 
     def __init__(self):
-
         self.intent_router = IntentRouter()
-
         self.semantic_router = SemanticRouter()
-
         self.llm_router = LLMRouter()
-
         self.planner = Planner()
-
         self.executor = Executor()
-
         self.cache = CommandCache()
 
     def process(self, user_input):
-
         print("\n[STEP 1] Intent Router")
-
-        matches = self.intent_router.detect_agents(
-            user_input
-        )
+        
+        # detect_agents ab strict rules par ya toh score dict dega ya fir None
+        matches = self.intent_router.detect_agents(user_input)
 
         execution_plan = None
 
         # ==================================
-        # SINGLE DIRECT MATCH
+        # SINGLE DIRECT MATCH (STRICT OVERRIDES)
         # ==================================
-
-        if len(matches) == 1:
-
+        if matches and len(matches) == 1:
             agent_name = list(matches.keys())[0]
-
-            print(
-                f"[ROUTER] Direct Route → {agent_name}"
-            )
+            print(f"[ROUTER] Direct Route → {agent_name}")
 
             execution_plan = {
                 "agents": [
@@ -54,129 +41,69 @@ class Jarvis:
             }
 
         # ==================================
-        # MULTIPLE OR NO MATCH
+        # MULTIPLE MATCHES OR NO STRIKT MATCH (FALLBACK TRIGGERED)
         # ==================================
-
         else:
-
-            if len(matches) > 1:
-
-                print(
-                    f"[ROUTER] Multiple Matches → "
-                    f"{list(matches.keys())}"
-                )
-
+            if matches and len(matches) > 1:
+                print(f"[ROUTER] Multiple Matches → {list(matches.keys())}")
             else:
-
-                print(
-                    "[ROUTER] No Match Found"
-                )
+                print("[ROUTER] No Strict Match Found. Switching Pipeline...")
 
             # ==================================
-            # CACHE
+            # CACHE CHECK
             # ==================================
-
-            cached_plan = self.cache.get(
-                user_input
-            )
+            cached_plan = self.cache.get(user_input)
 
             if cached_plan:
-
-                print(
-                    "[CACHE] Hit"
-                )
-
+                print("[CACHE] Hit")
                 execution_plan = cached_plan
-
             else:
-
-                print(
-                    "[CACHE] Miss"
-                )
+                print("[CACHE] Miss")
 
                 # ==================================
-                # SEMANTIC ROUTER
+                # SEMANTIC ROUTER (FAISS VECTOR SPACE)
                 # ==================================
+                semantic_result = self.semantic_router.detect_agent(user_input)
 
-                semantic_result = (
-                    self.semantic_router.detect_agent(
-                        user_input
-                    )
-                )
-
-                if semantic_result.get(
-                    "matched"
-                ):
-
-                    print(
-                        "[SEMANTIC ROUTER] Match Found"
-                    )
-
+                if semantic_result and semantic_result.get("matched"):
+                    print("[SEMANTIC ROUTER] Match Found")
                     execution_plan = {
                         "agents": [
                             {
-                                "name": semantic_result[
-                                    "agent"
-                                ],
+                                "name": semantic_result["agent"],
                                 "task": user_input
                             }
                         ]
                     }
 
+                # ==================================
+                # LLM ROUTER (FINAL FALLBACK)
+                # ==================================
                 else:
+                    print("[SEMANTIC ROUTER] No Match")
+                    execution_plan = self.llm_router.create_execution_plan(user_input)
 
-                    print(
-                        "[SEMANTIC ROUTER] No Match"
-                    )
-
-                    # ==================================
-                    # LLM ROUTER
-                    # ==================================
-
-                    execution_plan = (
-                        self.llm_router
-                        .create_execution_plan(
-                            user_input
-                        )
-                    )
-
-                self.cache.set(
-                    user_input,
-                    execution_plan
-                )
-
-                print(
-                    "[CACHE] Plan Saved"
-                )
+                # Save the resolved plan to cache for future speedups
+                self.cache.set(user_input, execution_plan)
+                print("[CACHE] Plan Saved")
 
         # ==================================
         # PLANNER
         # ==================================
-
-        queue = self.planner.build_queue(
-            execution_plan
-        )
+        queue = self.planner.build_queue(execution_plan)
 
         # ==================================
         # EXECUTOR
         # ==================================
-
-        results = self.executor.execute(
-            queue
-        )
+        results = self.executor.execute(queue)
 
         # ==================================
-        # OUTPUT
+        # OUTPUT FORMATTING
         # ==================================
-
         output = "\n[JARVIS]\n\n"
-
-        output += (
-            "Execution Results\n\n"
-        )
+        output += "Execution Results\n\n"
 
         for item in results:
-
             output += (
                 f"Step   : {item['step']}\n"
                 f"Agent  : {item['agent']}\n"
@@ -187,37 +114,19 @@ class Jarvis:
         return output
 
     def run(self):
-
-        print(
-            "JARVIS Genesis ready."
-        )
-
-        print(
-            "Type 'exit' to quit.\n"
-        )
+        print("JARVIS Genesis ready.")
+        print("Type 'exit' to quit.\n")
 
         while True:
-
-            user_input = input(
-                "You: "
-            ).strip()
+            user_input = input("You: ").strip()
 
             if not user_input:
                 continue
 
-            if user_input.lower() in {
-                "exit",
-                "quit"
-            }:
-                print(
-                    "\nJARVIS shutting down..."
-                )
+            if user_input.lower() in {"exit", "quit"}:
+                print("\nJARVIS shutting down...")
                 break
 
             print()
-
-            result = self.process(
-                user_input
-            )
-
+            result = self.process(user_input)
             print(result)
