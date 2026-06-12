@@ -1,7 +1,7 @@
 import json
 
-# Define the project structure
-project_structure = {
+# Define the tree structure
+active_tree_map = {
   "root": [
     ".gitignore",
     "main.py",
@@ -165,5 +165,13 @@ project_structure = {
   ]
 }
 
-# Print the project structure
-print(json.dumps(project_structure, indent=4))
+# Define the .gitignore files
+with open('D:\\gaurang\\jarvis-genesis\\.gitignore', 'r') as f:
+    gitignore_files = f.readlines()
+
+# Remove .gitignore files from the tree structure
+for key, value in active_tree_map.items():
+    active_tree_map[key] = [file for file in value if file not in gitignore_files]
+
+# Print the updated tree structure
+print(json.dumps(active_tree_map, indent=4))

@@ -1,7 +1,11 @@
 import os
 import subprocess
-import psutil
 from pathlib import Path
+
+try:
+    import psutil
+except ImportError:
+    psutil = None
 
 class ForgeTools:
     
@@ -9,13 +13,14 @@ class ForgeTools:
     def get_active_workspace():
         """Detects if VS Code is open and hooks the current working directory."""
         vscode_active = False
-        for proc in psutil.process_iter(['name']):
-            try:
-                if proc.info['name'] and 'code' in proc.info['name'].lower():
-                    vscode_active = True
-                    break
-            except (psutil.NoSuchProcess, psutil.AccessDenied):
-                pass
+        if psutil is not None:
+            for proc in psutil.process_iter(['name']):
+                try:
+                    if proc.info['name'] and 'code' in proc.info['name'].lower():
+                        vscode_active = True
+                        break
+                except (psutil.NoSuchProcess, psutil.AccessDenied):
+                    pass
                 
         current_dir = os.getcwd()
         return {

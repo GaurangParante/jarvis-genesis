@@ -1,20 +1,15 @@
-import json
-import re
-
-from groq import Groq
-
-from app.core.config import GROQ_API_KEY
 from app.core.agent_registry import AgentRegistry
+from app.providers.base import ProviderError
+from app.providers.provider_manager import ProviderManager
 
 
 class LLMRouter:
 
     def __init__(self):
-
-        self.client = Groq(api_key=GROQ_API_KEY)
         self.registry = AgentRegistry()
+        self.providers = ProviderManager()
 
-    def create_execution_plan(self, user_input):
+    def create_execution_plan(self, user_input, task_profile=None):
 
         agents = self.registry.get_all_agents_info()
 
@@ -40,6 +35,10 @@ Available Agents:
 
 User Query:
 {user_input}
+
+Task Notes:
+Intent: {getattr(task_profile, "intent", "general")}
+Confidence: {getattr(task_profile, "confidence", 0.0)}
 
 Rules:
 
@@ -88,38 +87,125 @@ Example 2:
   ]
 }}
 """
+        signals = list(getattr(task_profile, "signals", []) or [])
 
-        response = self.client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
-            temperature=0
-        )
-
-        content = response.choices[0].message.content.strip()
-        match = re.search(r"\{.*\}", content, re.DOTALL)
-
-        if not match:
-            raise ValueError(
-                f"No JSON found in response:\n{content}"
-            )
-
-        json_text = match.group()
+        if len(signals) > 1:
+            workflow_like = self._build_multi_signal_plan(user_input, signals)
+            if workflow_like:
+                return workflow_like
 
         try:
+            _, execution_plan = self.providers.chat_json(
+                prompt,
+                task_text=user_input,
+                purpose="planning"
+            )
 
-            execution_plan = json.loads(json_text)
+            if "agents" not in execution_plan and "steps" in execution_plan:
+                execution_plan["agents"] = execution_plan["steps"]
 
             return execution_plan
+        except ProviderError:
+            return self._fallback_execution_plan(user_input, task_profile)
 
-        except json.JSONDecodeError as e:
+    def _fallback_execution_plan(self, user_input, task_profile=None):
+        intent = getattr(task_profile, "intent", "general")
+        signals = list(getattr(task_profile, "signals", []) or [])
 
-            print("\n========== INVALID JSON ==========")
-            print(json_text)
-            print("==================================\n")
+        fallback_agent_map = {
+            "coding": "FORGE",
+            "automation": "ORBIT",
+            "research": "PHANTOM",
+            "youtube": "APOLLO",
+            "social": "NOVA",
+            "email": "MERCURY",
+            "security": "SENTINEL",
+            "finance": "TITAN",
+            "fitness": "ATHENA",
+        }
 
-            raise e
+        if len(signals) > 1:
+            agents = []
+            seen = set()
+
+            for signal in signals:
+                agent_name = fallback_agent_map.get(signal)
+                if not agent_name or agent_name in seen:
+                    continue
+
+                seen.add(agent_name)
+                agents.append(
+                    {
+                        "name": agent_name,
+                        "task": user_input
+                    }
+                )
+
+            if agents:
+                return {
+                    "agents": agents,
+                    "meta": {
+                        "source": "fallback",
+                        "intent": intent,
+                        "signals": signals
+                    }
+                }
+
+        agent_name = fallback_agent_map.get(intent, "PHANTOM")
+
+        return {
+            "agents": [
+                {
+                    "name": agent_name,
+                    "task": user_input
+                }
+            ],
+            "meta": {
+                "source": "fallback",
+                "intent": intent
+            }
+        }
+
+    def _build_multi_signal_plan(self, user_input, signals):
+        signal_agent_map = {
+            "research": "PHANTOM",
+            "youtube": "APOLLO",
+            "social": "NOVA",
+            "email": "MERCURY",
+            "automation": "ORBIT",
+            "coding": "FORGE",
+            "security": "SENTINEL",
+            "account_setup": "ORBIT",
+            "finance": "TITAN",
+            "fitness": "ATHENA",
+        }
+
+        seen = set()
+        agents = []
+
+        for signal in signals:
+            agent_name = signal_agent_map.get(signal)
+            if not agent_name or agent_name in seen:
+                continue
+
+            seen.add(agent_name)
+            agents.append(
+                {
+                    "name": agent_name,
+                    "task": user_input,
+                    "parallel_group": len(agents) + 1,
+                    "requires_confirmation": agent_name in {"ORBIT", "SENTINEL"},
+                }
+            )
+
+        if not agents:
+            return None
+
+        return {
+            "agents": agents,
+            "meta": {
+                "source": "llm_fallback",
+                "signals": signals,
+                "workflow": "multi_step",
+            }
+        }

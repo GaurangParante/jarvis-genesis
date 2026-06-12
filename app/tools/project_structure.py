@@ -1,11 +1,11 @@
 import json
 
-# Define the project structure
-project_structure = {
+tree_map = {
   "root": [
     ".gitignore",
     "main.py",
     "map_project.py",
+    "map_project.py.bak",
     "README.md",
     "requirements.txt"
   ],
@@ -165,5 +165,4 @@ project_structure = {
   ]
 }
 
-# Print the project structure
-print(json.dumps(project_structure, indent=4))
+print(json.dumps(tree_map, indent=4))

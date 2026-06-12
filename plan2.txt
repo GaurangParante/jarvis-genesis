@@ -1,0 +1,513 @@
+JARVIS GENESIS - MASTER PLAN 2
+
+Status Summary
+
+- [x] Groq and NIM provider layer started
+- [x] Smart provider choice added
+- [x] Multi-model fallback path added
+- [x] Task classifier added
+- [x] Root planning docs created
+- [x] Basic verification tests added
+- [x] Full multi-agent task graph
+- [x] Clear approval flow for passwords and logins
+- [x] Social media workflow automation
+- [x] YouTube workflow automation
+- [ ] Shared backend for all clients
+- [ ] Desktop app
+- [ ] Web app
+- [ ] Mobile app
+- [x] Safe account onboarding flow
+- [ ] Audit logging and sensitive-action history
+
+Big picture
+
+You are building a multi-agent AI operating system for your personal and work life.
+It should not behave like a single chatbot that guesses one answer.
+It should behave like a coordinator that can:
+- Understand a request
+- Break it into steps
+- Choose one or more agents
+- Choose the best model for each step
+- Execute safely
+- Ask for approval when needed
+- Work across desktop, web, and mobile later
+
+This is the broad product vision:
+- One brain
+- Many agents
+- Many tools
+- Multiple model providers
+- Shared memory
+- Cross-platform clients
+
+What I think you are trying to make
+
+You are not just making an assistant.
+You are making a personal command layer for:
+- Coding
+- Desktop automation
+- Content creation
+- Social media workflows
+- YouTube workflows
+- Research
+- Security and account tasks
+- File and project management
+- Future device control from desktop, web, and mobile
+
+That means the real product is:
+- a task orchestration system
+- with specialized AI workers
+- and a safe execution engine
+
+Current direction from the repo
+
+From the codebase, the project already points toward:
+- Intent routing
+- Semantic routing
+- LLM routing
+- Planner/executor pipeline
+- Agent registry
+- Desktop automation tools
+- Coding automation
+- App discovery and file control
+- Memory and vector search
+
+So the future should be built around these layers:
+- input understanding
+- routing and decomposition
+- model selection
+- agent selection
+- tool execution
+- memory
+- logs
+- UI clients
+
+Multi-model strategy
+
+You said you want to use Groq and NVIDIA NIM together.
+That is the right idea.
+
+Recommended model policy:
+
+1. Use the cheapest fast option first
+- For simple routing, classification, and small tasks, prefer the provider with the best free or low-cost throughput.
+- If NIM gives you more free RPM, use it for frequent low-risk calls.
+
+2. Use Groq strategically
+- Use Groq for bursty, high-quality generation when you need speed or strong reasoning.
+- Do not waste Groq on tasks that can be solved with smaller or cheaper calls.
+
+3. Use NIM for steady routing and repeated tasks
+- Good for:
+  - intent classification
+  - plan generation
+  - multi-agent decomposition
+  - summarization
+  - structured JSON outputs
+
+4. Use model tiers by task
+- Tier 1:
+  - routing
+  - intent detection
+  - simple summaries
+- Tier 2:
+  - task decomposition
+  - agent selection
+  - JSON planning
+- Tier 3:
+  - high quality generation
+  - complex reasoning
+  - final answer polishing
+
+5. Do not hardcode a single provider in the core
+- The app should choose a provider based on:
+  - task type
+  - cost
+  - rate limit
+  - current load
+  - response quality needed
+
+Smart provider routing
+
+Instead of "use Groq everywhere" or "use NIM everywhere", build a router that decides:
+- Which provider to call
+- Which model to use
+- Whether to call one model or several
+- Whether the response should be cached
+
+Example provider decision logic:
+- Short classification -> NIM
+- JSON plan generation -> NIM
+- Complex multi-step reasoning -> Groq
+- Fallback if first provider fails -> switch provider
+- If rate limit reached -> fail over
+- If task is repetitive -> cache result
+
+Multi-agent strategy
+
+You said you have minimum 10 agents.
+That means the assistant should not force one agent to do everything.
+
+Each agent should have:
+- a job
+- a capability list
+- allowed tools
+- typical task types
+- output schema
+
+The assistant should support:
+- one agent for one task
+- one agent for a short task chain
+- multiple agents working in sequence
+- multiple agents working in parallel when possible
+
+Examples:
+
+1. Social media workflow
+- PHANTOM: research trend/topic
+- APOLLO or NOVA: write content script/post
+- MERCURY: send email if outreach is needed
+- ORBIT: open apps, upload, navigate web tools
+
+2. YouTube workflow
+- PHANTOM: research topic and keywords
+- APOLLO: generate title/script/SEO
+- FORGE: generate helper scripts or tools if needed
+- ORBIT: open browser, upload, manage local files
+
+3. Coding workflow
+- FORGE: write or modify code
+- PHANTOM: research libraries or API usage
+- SENTINEL: security checks if sensitive
+- ORBIT: open project/app, run local tooling
+
+4. Account setup workflow
+- ORBIT: open browser and navigate
+- MERCURY: manage email confirmation steps
+- SENTINEL: handle security checks and reminders
+- Human approval: required for passwords, OTPs, CAPTCHAs, and sensitive final submission
+
+Routing philosophy
+
+Do not "catch the user word and directly decide one agent" anymore.
+Instead:
+
+1. Detect intent
+- coding
+- automation
+- research
+- social
+- video
+- email
+- security
+- finance
+- fitness
+- multi-step
+
+2. Estimate confidence
+- high confidence -> direct route
+- medium confidence -> semantic/LLM route
+- low confidence -> ask a short clarification
+
+3. Match capabilities
+- pick all agents that can truly contribute
+- do not assign an agent that is only loosely related
+
+4. Create a task graph
+- split the user request into subtasks
+- order them
+- mark which can run in parallel
+
+5. Execute with safety
+- risky tasks ask for confirmation
+- account and password tasks always ask approval
+- browser automation and posting tasks can require final user review
+
+Proposed orchestration flow
+
+User input
+-> Intent classifier
+-> Confidence scorer
+-> Capability matcher
+-> Multi-agent planner
+-> Provider selector
+-> Agent execution queue
+-> Tool execution
+-> Result merge
+-> Final response
+
+Model/provider usage per stage
+
+Stage 1: classify
+- cheap fast model
+- provider: NIM first
+
+Stage 2: plan
+- structured JSON output
+- provider: NIM or Groq depending on load
+
+Stage 3: complex reasoning
+- provider: Groq or NIM higher-end model
+
+Stage 4: answer polish
+- whichever provider is available
+
+Stage 5: fallback
+- switch provider if one fails or is rate limited
+
+Account and password handling
+
+You said:
+- make accounts for social media and YouTube
+- if password is needed, ask you so you can provide it
+- then automate the task
+
+That should be treated as a secure workflow.
+
+Recommended handling:
+
+1. Ask before using credentials
+- The assistant should explicitly request approval before any account login or password input.
+
+2. Never store plain passwords in code
+- Use temporary in-memory prompts or a secure vault if you later add one.
+
+3. Separate sensitive steps
+- Login
+- OTP
+- CAPTCHA
+- profile edits
+- posting
+- deletion
+
+4. Require confirmation on final submission
+- Especially for public posts, account creation, and irreversible actions
+
+5. Keep a human-in-the-loop for high risk
+- If the site requires CAPTCHA, 2FA, or identity verification, the assistant should pause and ask you to take over that step.
+
+6. Prefer official APIs where possible
+- For YouTube and social platforms, use APIs when available instead of browser automation
+- Use browser automation only when API access is not available or not practical
+
+Cross-platform end goal
+
+You want the same brain to work on:
+- desktop software
+- mobile app
+- web app
+
+That means the backend must become platform-neutral.
+
+Best structure:
+- Core backend service
+- Agent execution layer
+- Model provider layer
+- Memory layer
+- Client UIs
+
+Clients:
+- CLI for development
+- Desktop app for daily use
+- Web app for remote access
+- Mobile app for quick control and approvals
+
+What each client should do
+
+CLI:
+- fastest testing
+- developer debugging
+- safe task execution
+
+Desktop app:
+- main workspace
+- task dashboard
+- approvals
+- live logs
+- file and system control
+
+Web app:
+- remote access
+- task history
+- settings
+- monitoring
+
+Mobile app:
+- notifications
+- approvals
+- quick command input
+- remote status view
+
+System modules to build
+
+1. Provider manager
+- handles Groq and NIM
+- chooses model dynamically
+- tracks rate limits and fallback
+
+2. Intent engine
+- detects task type
+- outputs confidence
+
+3. Agent registry
+- knows all 10+ agents
+- maps capabilities to tasks
+
+4. Task planner
+- splits one request into many steps
+- supports sequencing and parallelism
+
+5. Executor
+- runs agents
+- runs tools
+- captures failures
+
+6. Memory manager
+- command cache
+- session memory
+- user preferences
+- agent history
+
+7. Safety manager
+- requires confirmations
+- handles passwords
+- blocks risky automation without approval
+
+8. Client layer
+- desktop/web/mobile UI
+
+Phased roadmap
+
+Phase 1 - Clean foundation
+- [x] Stabilize current CLI
+- [x] Fix routing structure
+- [x] Replace direct model coupling
+- [x] Define provider abstraction
+- [ ] Make agent contracts explicit
+
+Phase 2 - Multi-model brain
+- [x] Add NIM provider
+- [x] Keep Groq provider
+- [x] Add smart provider selection
+- [x] Add retry and fallback
+- [ ] Cache repeated outputs
+
+Phase 3 - Multi-agent orchestration
+- [x] Add task decomposition
+- [ ] Support agent chaining
+- [ ] Support parallel subtasks
+- [ ] Merge results cleanly
+
+Phase 4 - Social and YouTube workflows
+- [x] Add workflow templates for:
+  - [x] YouTube research
+  - [x] YouTube script creation
+  - [x] Social media post creation
+  - [x] account setup assistance
+  - [ ] content scheduling support
+- [x] Add credential approval flow
+- [ ] Add browser or API connectors where possible
+
+Phase 5 - Safety and control
+- [x] Add human approval for sensitive actions
+- [x] Add password prompt flow
+- [x] Add 2FA/CAPTCHA pause points
+- [ ] Add audit logging
+
+Phase 6 - Shared backend
+- [ ] convert the core into a service layer
+- [ ] expose API endpoints for tasks and status
+- [ ] keep all clients using the same backend
+
+Phase 7 - Desktop app
+- [ ] task console
+- [ ] agent monitor
+- [ ] approvals
+- [ ] execution logs
+- [ ] workflow cards
+
+Phase 8 - Web app
+- [ ] dashboard
+- [ ] remote control
+- [ ] reports
+- [ ] memory browser
+
+Phase 9 - Mobile app
+- [ ] approval notifications
+- [ ] quick commands
+- [ ] remote viewing
+- [ ] limited safe actions
+
+Phase 10 - Product finish
+- [ ] package releases
+- [ ] documentation
+- [ ] model routing tuning
+- [ ] performance tuning
+- [ ] security hardening
+
+Visualization of the future system
+
+User
+-> UI client
+-> Core backend
+-> Intent detection
+-> Provider selection
+-> Multi-agent planning
+-> Execution engine
+-> Tools/APIs/browser/system
+-> Memory/logging
+-> Final response
+
+Model flow example
+
+Request comes in
+-> NIM classifies intent
+-> NIM makes a structured agent plan
+-> Planner splits into subtasks
+-> ORBIT handles system actions
+-> APOLLO handles content
+-> PHANTOM handles research
+-> FORGE handles code
+-> Result is merged
+-> Groq is used only if a harder step needs it or NIM fails
+
+Agent flow example for social/youtube
+
+User asks:
+- "Make my YouTube and Instagram ready and start posting"
+
+System should:
+- ask what accounts/platforms are needed
+- ask for approval before login
+- ask for passwords only when login is needed
+- use research agent for topic ideas
+- use content agent for script/post
+- use browser/system agent for upload steps
+- request confirmation before final publish
+
+What to prioritize first
+
+1. Build provider abstraction for Groq + NIM
+2. Build smart model selector
+3. Build multi-agent task planner
+4. Make sensitive actions ask for approval
+5. Add social and YouTube workflow templates
+6. Prepare shared backend for desktop/web/mobile
+
+Best short-term outcome
+
+If you do the next few steps correctly, your system becomes:
+- cheaper to run
+- smarter in routing
+- safer for automation
+- more flexible across models
+- ready for multi-agent workflows
+- ready for cross-platform product expansion
+
+Next file ideas after this
+
+- `architecture.md` for the system design
+- `providers/` package for Groq/NIM switching
+- `agents.md` for the 10-agent capability map
+- `workflows.md` for social, YouTube, coding, and account setup flows
+- `ui_roadmap.md` for desktop/web/mobile

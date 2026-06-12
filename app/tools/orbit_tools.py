@@ -2,28 +2,43 @@ import os
 import webbrowser
 import subprocess
 import shutil
-import psutil
 import time
-import numpy as np
-import cv2
 from datetime import datetime
 from pathlib import Path
-import mss
 import json
 
-# Windows specific integrations
-import screen_brightness_control as sbc
-from ctypes import cast, POINTER
-from comtypes import CLSCTX_ALL
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+try:
+    import psutil
+except ImportError:
+    psutil = None
+
+try:
+    import numpy as np
+except ImportError:
+    np = None
+
+try:
+    import cv2
+except ImportError:
+    cv2 = None
+
+try:
+    import mss
+except ImportError:
+    mss = None
+
+try:
+    import screen_brightness_control as sbc
+except ImportError:
+    sbc = None
 
 SPECIAL_FOLDERS = {
-    "desktop": os.path.join(os.environ["USERPROFILE"], "Desktop") if os.path.exists(os.path.join(os.environ["USERPROFILE"], "Desktop")) else os.path.join(os.environ["USERPROFILE"], "OneDrive", "Desktop"),
-    "downloads": os.path.join(os.environ["USERPROFILE"], "Downloads"),
-    "documents": os.path.join(os.environ["USERPROFILE"], "Documents") if os.path.exists(os.path.join(os.environ["USERPROFILE"], "Documents")) else os.path.join(os.environ["USERPROFILE"], "OneDrive", "Documents"),
-    "pictures": os.path.join(os.environ["USERPROFILE"], "Pictures"),
-    "music": os.path.join(os.environ["USERPROFILE"], "Music"),
-    "videos": os.path.join(os.environ["USERPROFILE"], "Videos"),
+    "desktop": os.path.join(os.environ.get("USERPROFILE", str(Path.home())), "Desktop"),
+    "downloads": os.path.join(os.environ.get("USERPROFILE", str(Path.home())), "Downloads"),
+    "documents": os.path.join(os.environ.get("USERPROFILE", str(Path.home())), "Documents"),
+    "pictures": os.path.join(os.environ.get("USERPROFILE", str(Path.home())), "Pictures"),
+    "music": os.path.join(os.environ.get("USERPROFILE", str(Path.home())), "Music"),
+    "videos": os.path.join(os.environ.get("USERPROFILE", str(Path.home())), "Videos"),
 }
 
 class OrbitTools:
@@ -87,6 +102,8 @@ class OrbitTools:
 
     @staticmethod
     def close_application(app_name):
+        if psutil is None:
+            return "psutil is not installed; cannot close applications."
         app_name = app_name.lower()
         closed = False
         for proc in psutil.process_iter(["pid", "name"]):
@@ -149,6 +166,8 @@ class OrbitTools:
 
     @staticmethod
     def set_brightness(level: int):
+        if sbc is None:
+            return "screen_brightness_control is not installed."
         try:
             level = max(0, min(100, level))
             sbc.set_brightness(level)
@@ -162,6 +181,8 @@ class OrbitTools:
 
     @staticmethod
     def take_screenshot():
+        if mss is None:
+            return "mss is not installed."
         os.makedirs("app/data/screenshots", exist_ok=True)
         filename = f"app/data/screenshots/screenshot_{datetime.now():%Y%m%d_%H%M%S}.png"
         try:
@@ -173,6 +194,8 @@ class OrbitTools:
 
     @staticmethod
     def capture_webcam_image():
+        if cv2 is None:
+            return "opencv-python is not installed."
         os.makedirs("app/data/captures", exist_ok=True)
         filename = f"app/data/captures/webcam_{datetime.now():%Y%m%d_%H%M%S}.jpg"
         cap = cv2.VideoCapture(0, cv2.CAP_DSHOW) # Fast boot capture
@@ -189,6 +212,8 @@ class OrbitTools:
 
     @staticmethod
     def record_webcam_video(duration=10):
+        if cv2 is None:
+            return "opencv-python is not installed."
         os.makedirs("app/data/recordings", exist_ok=True)
         filename = f"app/data/recordings/webcam_rec_{datetime.now():%Y%m%d_%H%M%S}.mp4"
         cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
@@ -210,6 +235,8 @@ class OrbitTools:
 
     @staticmethod
     def record_screen(duration=10):
+        if mss is None or np is None or cv2 is None:
+            return "screen recording dependencies are not installed."
         os.makedirs("app/data/recordings", exist_ok=True)
         filename = f"app/data/recordings/screen_rec_{datetime.now():%Y%m%d_%H%M%S}.mp4"
         

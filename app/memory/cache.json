@@ -22,5 +22,77 @@
                 "task": "Create a script to get the file structure in the root folder excluding files listed in .gitignore"
             }
         ]
+    },
+    "create python script for get file structure of project and ignore all file which written in .gitignore file": {
+        "agents": [
+            {
+                "name": "FORGE",
+                "task": "Create python script to get file structure of project and ignore files in .gitignore"
+            }
+        ]
+    },
+    "i need python screept for this not directfile": {
+        "agents": [
+            {
+                "name": "FORGE",
+                "task": "Write python script"
+            }
+        ]
+    },
+    "open vscode": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Open VS Code"
+            }
+        ]
+    },
+    "hello": {
+        "agents": [
+            {
+                "name": "PHANTOM",
+                "task": "Perform general research to understand user query"
+            }
+        ]
+    },
+    "deep research on shah rukh khan": {
+        "agents": [
+            {
+                "name": "PHANTOM",
+                "task": "deep research on Shah Rukh Khan"
+            }
+        ]
+    },
+    "tell me joke": {
+        "agents": [
+            {
+                "name": "PHANTOM",
+                "task": "Find and return a joke"
+            }
+        ]
+    },
+    "hathi pe koi joke sunao": {
+        "agents": [
+            {
+                "name": "PHANTOM",
+                "task": "Find a joke about hathi"
+            }
+        ]
+    },
+    "open slack": {
+        "agents": [
+            {
+                "name": "ORBIT",
+                "task": "Open Slack application"
+            }
+        ]
+    },
+    "muze ek projecrt ka file structure banana he uske liye python ki screept do": {
+        "agents": [
+            {
+                "name": "ARCHIVE",
+                "task": "muze ek projecrt ka file structure banana he uske liye python ki screept do"
+            }
+        ]
     }
 }

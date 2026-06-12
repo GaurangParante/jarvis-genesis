@@ -14,3 +14,4 @@ screen-brightness-control
 comtypes
 pylint
 pywin32
+pyttsx3

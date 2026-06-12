@@ -1,0 +1,27 @@
+JARVIS GENESIS PROGRESS CHECK
+
+Use this file as a quick "am I on track?" checklist.
+
+Current healthy signals
+
+- [x] CLI starts from `main.py`
+- [x] Provider layer exists for Groq and NIM
+- [x] Smart provider selection is in place
+- [x] Task classifier is in place
+- [x] Basic test file exists
+- [x] Root planning docs exist
+
+Expected next signals
+
+- [ ] Multi-agent planner produces multi-step task graphs
+- [ ] Sensitive actions ask for approval
+- [ ] Social and YouTube workflows exist
+- [ ] Desktop, web, and mobile are planned against one backend
+- [ ] Memory and audit logging are stronger
+
+How to use this file
+
+- If most current healthy signals stay checked, the project is moving in the right direction.
+- If expected next signals stay unchecked, that is normal until those phases are built.
+- When a new core feature is completed, move it from pending to done here and in the roadmap files.
+

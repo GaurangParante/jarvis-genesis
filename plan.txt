@@ -1,0 +1,328 @@
+JARVIS GENESIS - PROJECT PLAN
+
+Status Summary
+
+- [x] Provider layer added for Groq and NVIDIA NIM
+- [x] Smart provider selection added
+- [x] Task classifier added for intent signals
+- [x] LLM router now has provider fallback
+- [x] Planner now supports `agents` and `steps`
+- [x] Basic tests added for provider choice and classifier behavior
+- [x] Multi-agent task graph/planner
+- [x] Approval flow for passwords, logins, and posting
+- [ ] Shared backend API for desktop/web/mobile
+- [ ] Desktop app client
+- [ ] Web app client
+- [ ] Mobile app client
+- [x] Social media and YouTube workflow templates
+- [ ] Durable memory and session history
+- [ ] Security/audit logging for sensitive actions
+
+What this project appears to be
+
+This repo is building a personal AI assistant platform, not just a chatbot.
+The direction is:
+- A central Jarvis controller
+- Multiple specialized agents
+- Desktop automation and OS control
+- Coding/project generation
+- Knowledge and memory layers
+- Future expansion to web, desktop app, and mobile app
+
+In simple words, you are creating a modular "AI operating assistant" that can:
+- Understand what a user wants
+- Decide which specialist should handle it
+- Execute actions on the computer
+- Learn from past commands
+- Eventually work across terminal, desktop app, web app, and mobile app
+
+My read of the current intent
+
+You are not building one single-purpose assistant.
+You are building a system that can become the command layer for a user:
+- Open apps
+- Take screenshots / webcam photos / recordings
+- Run coding tasks
+- Research / content tasks
+- Handle email, finance, fitness, social, and security workflows
+- Possibly grow into a full personal AI product with a GUI and multi-device access
+
+Current state of the repo
+
+What already exists:
+- A main entry point in `main.py`
+- A `Jarvis` controller in `app/core/jarvis.py`
+- A strict keyword router in `app/core/intent_router.py`
+- A semantic fallback router in `app/core/semantic_router.py`
+- An LLM fallback router in `app/core/llm_router.py`
+- A queue builder in `app/core/planner.py`
+- An executor in `app/core/executor.py`
+- A registry of named agents in `app/core/agent_registry.py`
+- Agent folders for FORGE, ORBIT, PHANTOM, ARCHIVE, TITAN, ATHENA, MERCURY, NOVA, APOLLO, SENTINEL
+- Memory/cache and vectorstore scaffolding
+- Some tool modules for OS automation and file operations
+
+What is incomplete or fragile:
+- Routing logic is still partly keyword-based
+- LLM provider is hardwired to Groq
+- Agent selection is not yet based on a clean capability model
+- Some files are clearly scaffolding or duplicates
+- The codebase appears to be in phase 1 or phase 2, not production ready yet
+- There is no stable cross-platform UI layer yet
+- Desktop, web, and mobile are not yet separated into shared backend vs client layers
+
+Core problem to solve
+
+Right now the assistant is trying to do too many things directly from the core runtime.
+To finish the project cleanly, the system should be split into:
+- Brain layer: model/provider/router
+- Skill layer: agents and tools
+- Memory layer: cache, vector DB, logs, history
+- Execution layer: safe command/action runner
+- Interface layer: CLI, desktop app, web app, mobile app
+
+Recommended target architecture
+
+1. Core orchestration
+- `Jarvis` should only coordinate the pipeline
+- It should not contain provider-specific or platform-specific logic
+- It should ask:
+  - What does the user want?
+  - Which agent should handle it?
+  - What tools are allowed?
+  - What is the final action plan?
+
+2. Router layer
+- Replace pure catch-word routing with a hybrid router:
+  - rule-based fast path
+  - embedding similarity path
+  - LLM classification fallback
+  - clarification fallback when confidence is low
+
+3. Agent layer
+- Each agent should have:
+  - one responsibility
+  - capabilities
+  - tool access rules
+  - examples
+  - response schema
+
+4. Tool layer
+- Separate tools by domain:
+  - desktop
+  - files
+  - browser
+  - code
+  - memory
+  - content
+  - system/security
+
+5. Provider layer
+- Use a provider interface so the system can switch between:
+  - Groq
+  - NVIDIA NIM
+  - future providers later
+
+6. Interface layer
+- CLI first
+- Then desktop app
+- Then web app
+- Then mobile app
+
+How to change from Groq to NVIDIA NIM
+
+Do not replace Groq in random files one by one.
+Instead, create a model-provider abstraction.
+
+Recommended steps:
+
+1. Create a provider interface
+- A single place for chat completion calls
+- A single place for embeddings calls if needed
+- A single place for error handling and retries
+
+2. Move provider-specific code out of `LLMRouter`
+- `LLMRouter` should ask a provider class for a response
+- It should not know whether the backend is Groq or NIM
+
+3. Create a `NIMProvider`
+- It should map your existing chat-completion format to NIM's API format
+- It should return the same normalized output shape used by the app
+
+4. Keep a fallback provider
+- If NIM fails or rate limits, optionally fall back to another provider
+
+5. Update env config
+- Replace or add env variables for NIM credentials and endpoint
+- Keep secrets out of source code
+
+6. Test JSON-only routing responses
+- The LLM router relies on structured output
+- You must validate that NIM returns consistent JSON
+- Add repair logic for malformed JSON
+
+7. If you use embeddings with NIM or another provider
+- Put embedding generation behind the same abstraction
+- Do not let semantic search depend on one vendor
+
+How to stop "catch my word and decide the agent"
+
+This part should be redesigned.
+
+Current issue:
+- The system is deciding mostly from keywords and static rules
+- That is fast, but it is not intelligent or flexible
+- It can misroute ambiguous requests
+
+Better design:
+
+1. Add an intent classifier
+- The assistant should classify the request into a task type
+- Examples:
+  - code
+  - desktop_action
+  - research
+  - content
+  - email
+  - finance
+  - fitness
+  - security
+  - multi_step
+
+2. Add a capability matcher
+- Match intent against agent capabilities
+- Select agents only if their capabilities fit the task
+
+3. Add confidence scoring
+- Every routing step should produce a score
+- If confidence is low, ask a clarifying question
+
+4. Allow multi-agent plans
+- Some tasks should be split:
+  - research first
+  - then coding
+  - then execution
+
+5. Add user policy preferences
+- Let the user set defaults like:
+  - prefer one agent
+  - prefer safe mode
+  - require confirmation for system actions
+
+6. Add a no-guess rule
+- When confidence is too low, do not guess
+- Ask one short clarifying question instead
+
+Phased completion plan
+
+Phase 1 - Stabilize the current codebase
+- [x] Make the app run reliably from CLI
+- [x] Clean up routing and executor flow
+- [ ] Remove duplicated or dead paths
+- [x] Add tests for:
+  - [x] router
+  - [x] cache
+  - [x] provider output
+  - [x] execution plans
+- [x] Document all agents and their scope
+
+Phase 2 - Make routing intelligent
+- [x] Add a structured intent schema
+- [x] Add confidence thresholds
+- [ ] Add clarification behavior
+- [x] Add multi-agent plan support
+- [x] Replace simple keyword-only decisions with hybrid routing
+
+Phase 3 - Make model access provider-agnostic
+- [x] Build a provider abstraction
+- [x] Add Groq adapter
+- [x] Add NIM adapter
+- [x] Normalize response formats
+- [ ] Add explicit retries and timeout policy
+- [x] Add safe JSON parsing and provider fallback
+
+Phase 4 - Improve agent and tool design
+- Give each agent a clear contract
+- Add tool permission boundaries
+- Add execution policies:
+  - read-only
+  - suggest-only
+  - confirm-before-run
+  - auto-run
+- Separate coding, desktop, browser, and content workflows
+
+Phase 5 - Build durable memory
+- Short-term command cache
+- Long-term user preferences
+- Vector memory for prior tasks
+- Session logs
+- Recovery after crash
+
+Phase 6 - Make it a real product backend
+- Turn the core into an API service
+- Expose task submission and task status endpoints
+- Store jobs and results
+- Add auth if needed
+- Prepare a shared backend for all clients
+
+Phase 7 - Desktop app
+- Build a native desktop client
+- Use it as the main control surface
+- Features:
+  - chat
+  - task history
+  - agent view
+  - confirmations
+  - screenshots
+  - system action approvals
+
+Phase 8 - Web app
+- Build a browser-based UI over the same backend
+- Features:
+  - task submission
+  - logs
+  - memory
+  - agent status
+  - admin/config screens
+
+Phase 9 - Mobile app
+- Build a mobile client for remote control and monitoring
+- Features:
+  - quick commands
+  - task approval
+  - notifications
+  - status view
+  - remote actions with safety rules
+
+Phase 10 - Finish as an ecosystem
+- Unify all clients under one backend
+- Support sync across devices
+- Add workspace/project awareness
+- Add safe automation policies
+- Add versioned prompts and configs
+- Add packaging and deployment
+
+Suggested final product shape
+
+The end goal should be:
+- One backend brain
+- Multiple agents
+- Multiple clients
+- Provider-agnostic model layer
+- Safe automation
+- Persistent memory
+- Cross-platform availability
+
+Immediate next steps
+
+1. Refactor the LLM access into a provider interface
+2. Replace routing guesswork with confidence-based intent routing
+3. Define agent capability contracts
+4. Clean the current CLI flow until it is stable
+5. Add tests for router and executor behavior
+6. Plan the backend API boundary for desktop/web/mobile reuse
+
+If you want, the next file to create after this should be:
+- `docs/architecture.md` for the target system design
+- or a `providers/` package for Groq/NIM switching
+- or a `roadmap.md` with milestones and checkpoints

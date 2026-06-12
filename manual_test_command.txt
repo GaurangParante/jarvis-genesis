@@ -1,0 +1,22 @@
+Manual Test Commands
+
+1. Run the full test suite:
+   python -m unittest discover -s tests -p "test_*.py"
+
+2. Run the lightweight health tests:
+   python -m unittest tests.test_project_health tests.test_workflow_planner
+
+3. Start the assistant manually:
+   python main.py
+
+4. Try a live research command:
+   deep research on Shah Rukh Khan
+
+5. Try a voice/chat command:
+   koi joke sunao
+
+Notes:
+- If you want to test sensitive workflows, be ready to answer approval prompts in the terminal.
+- If your environment is missing optional desktop packages, the app should still start and return fallback messages for those tools.
+- For live research, PHANTOM should return a report with sources instead of a generic agent placeholder.
+- Voice output should speak the final answer after the CLI prints it.
