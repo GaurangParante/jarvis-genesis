@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from threading import Thread
-
 try:
     import pyttsx3
 except ImportError:  # pragma: no cover - optional dependency
@@ -32,7 +30,7 @@ class VoiceOutput:
         if not cleaned:
             return
 
-        Thread(target=self._speak_blocking, args=(cleaned,), daemon=True).start()
+        self._speak_blocking(cleaned)
 
     def _speak_blocking(self, text: str):
         if not self._engine:
